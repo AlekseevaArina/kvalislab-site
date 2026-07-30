@@ -22,25 +22,36 @@
     background:#fff; border:1px solid #E3DEF6; padding:5px 12px; border-radius:20px; }
 
   /* phone */
-  .phone{ width:340px; height:710px; background:#0E0E17; border-radius:44px; padding:11px;
-    box-shadow:0 30px 60px -20px rgba(40,30,90,.35), 0 6px 18px rgba(0,0,0,.12); position:relative; flex:none; }
-  .notch{ position:absolute; top:11px; left:50%; transform:translateX(-50%); width:120px; height:24px;
-    background:#0E0E17; border-radius:0 0 16px 16px; z-index:40; }
-  .screen{ width:100%; height:100%; background:var(--bg); border-radius:34px; overflow:hidden; position:relative; }
+  .phone{ width:340px; height:710px; position:relative; flex:none; padding:13px; border-radius:50px;
+    background:linear-gradient(155deg,#45464F 0%, #1D1E26 40%, #0A0A10 100%);
+    box-shadow:
+      inset 0 2px 1px rgba(255,255,255,.28),
+      0 0 0 2px #050509,
+      0 48px 95px -26px rgba(122,111,208,.55),
+      0 20px 44px -14px rgba(0,0,0,.34); }
+  .side{ position:absolute; width:3px; border-radius:4px; background:linear-gradient(90deg,#4a4b55,#141519); z-index:-1; }
+  .side.v1{ left:-3px; top:138px; height:46px; }
+  .side.v2{ left:-3px; top:196px; height:46px; }
+  .side.pwr{ right:-3px; top:172px; height:78px; }
+  .notch{ position:absolute; top:17px; left:50%; transform:translateX(-50%); width:106px; height:27px;
+    background:#000; border-radius:16px; z-index:40; display:flex; align-items:center; justify-content:flex-end; padding-right:13px; }
+  .notch .cam{ width:8px; height:8px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #2a3550, #0a0d16); box-shadow:0 0 0 1px rgba(120,150,220,.35); }
+  .screen{ width:100%; height:100%; background:var(--bg); border-radius:37px; overflow:hidden; position:relative; }
   .view{ position:absolute; inset:0; display:flex; flex-direction:column; }
   .scroll{ flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; padding-bottom:78px; }
   .scroll::-webkit-scrollbar{ width:0; }
   .hidden{ display:none !important; }
 
   /* app header */
-  .ah{ padding:16px 16px 6px; display:flex; align-items:center; gap:11px; background:var(--bg); }
+  .ah{ padding:26px 16px 6px; display:flex; align-items:center; gap:11px; background:var(--bg); }
   .ah .mk{ width:34px; height:38px; flex:none; }
   .ah .tt{ flex:1; }
   .ah .tt h1{ font-size:18px; font-weight:800; letter-spacing:-.3px; }
   .ah .tt p{ font-size:11px; color:var(--grey); margin-top:1px; }
   .ah .gear{ width:36px; height:36px; border-radius:50%; background:#fff; border:1px solid var(--line);
     display:flex; align-items:center; justify-content:center; color:var(--grey); font-weight:800; font-size:16px; }
-  .backbar{ padding:14px 14px 8px; display:flex; align-items:center; gap:10px; background:var(--bg); }
+  .backbar{ padding:24px 14px 8px; display:flex; align-items:center; gap:10px; background:var(--bg); }
   .backbar .bk{ width:34px; height:34px; border-radius:11px; background:#fff; border:1px solid var(--line);
     display:flex; align-items:center; justify-content:center; font-size:17px; color:var(--ink); }
   .backbar .bt{ font-size:15px; font-weight:800; }
@@ -166,7 +177,7 @@
 
   /* bottom nav */
   .nav{ position:absolute; left:0; right:0; bottom:0; z-index:50; height:66px; background:#fff;
-    border-top:1px solid var(--line); border-radius:0 0 34px 34px; display:flex; align-items:center;
+    border-top:1px solid var(--line); border-radius:0 0 37px 37px; display:flex; align-items:center;
     justify-content:space-around; padding-bottom:4px; }
   .nav .nb{ display:flex; flex-direction:column; align-items:center; gap:3px; font-size:10px; color:var(--faint);
     cursor:pointer; width:56px; }
@@ -187,7 +198,7 @@
 
   /* scan overlay */
   .scanov{ position:absolute; inset:0; background:rgba(14,14,23,.92); z-index:60; display:none;
-    flex-direction:column; align-items:center; justify-content:center; gap:22px; border-radius:34px; }
+    flex-direction:column; align-items:center; justify-content:center; gap:22px; border-radius:37px; }
   .scanov.show{ display:flex; }
   .frame{ width:190px; height:190px; position:relative; }
   .frame .cor{ position:absolute; width:34px; height:34px; border:3px solid #fff; }
@@ -202,7 +213,7 @@
 
   /* bottom sheet (Свой тип) */
   .sheetov{ position:absolute; inset:0; background:rgba(20,18,40,.45); z-index:62; display:none;
-    align-items:flex-end; border-radius:34px; overflow:hidden; }
+    align-items:flex-end; border-radius:37px; overflow:hidden; }
   .sheetov.show{ display:flex; }
   .sheet{ background:#fff; width:100%; border-radius:22px 22px 0 0; padding:18px 16px 18px;
     max-height:90%; overflow-y:auto; }
@@ -227,7 +238,8 @@
 <div class="stage">
   <div class="demoChip">Демо · учебные данные · регистрация не нужна</div>
   <div class="phone">
-    <div class="notch"></div>
+    <div class="side v1"></div><div class="side v2"></div><div class="side pwr"></div>
+    <div class="notch"><span class="cam"></span></div>
     <div class="screen" id="screen">
 
       <!-- ===== РЕЕСТР ===== -->
@@ -238,9 +250,9 @@
           <div class="gear" data-toast="Справка — в полной версии">?</div>
         </div>
         <div class="scroll"><div class="pad">
-          <div class="lbl">ООО «АМЕДАРТ»</div>
-          <div class="dept">Аналитический отдел · АО <span class="chev">⌄</span></div>
-          <div class="seg"><button class="on" data-seg="dept">АО</button><button data-seg="all">Вся компания</button></div>
+          <div class="lbl">ООО «Лаборатория»</div>
+          <div class="dept">Отдел контроля качества · ОКК <span class="chev">⌄</span></div>
+          <div class="seg"><button class="on" data-seg="dept">ОКК</button><button data-seg="all">Вся компания</button></div>
           <div class="tiles">
             <div class="tile t-all sel"><div class="n">1508</div><div class="c">Всего позиций</div></div>
             <div class="tile t-exp"><div class="n">28</div><div class="c">Истекают за 90 дней</div></div>
@@ -287,9 +299,9 @@
       <div class="view hidden" id="v-journal">
         <div class="ah"><div class="tt"><h1>Журнал расхода</h1></div><div class="gear" data-toast="Настройки — в полной версии">?</div></div>
         <div class="scroll"><div class="pad">
-          <div class="lbl">ООО «АМЕДАРТ»</div>
-          <div class="dept">Аналитический отдел · АО <span class="chev">⌄</span></div>
-          <div class="seg"><button class="on">АО</button><button>Вся компания</button></div>
+          <div class="lbl">ООО «Лаборатория»</div>
+          <div class="dept">Отдел контроля качества · ОКК <span class="chev">⌄</span></div>
+          <div class="seg"><button class="on">ОКК</button><button>Вся компания</button></div>
           <div class="jstats">
             <div class="jstat"><div class="n" id="jCount">0</div><div class="c">Записей расхода</div></div>
             <div class="jstat"><div class="n" id="jPrec">0</div><div class="c">С отметкой «прекурсор»</div></div>
@@ -300,10 +312,10 @@
 
       <!-- ===== КОМПАНИЯ ===== -->
       <div class="view hidden" id="v-company">
-        <div class="ah"><div class="tt"><h1>Вся компания</h1><p>ООО «АМЕДАРТ» · отделы</p></div></div>
+        <div class="ah"><div class="tt"><h1>Вся компания</h1><p>ООО «Лаборатория» · отделы</p></div></div>
         <div class="scroll"><div class="pad">
           <div class="lbl">Отделы</div>
-          <div class="crow"><div><div class="nm">Аналитический отдел · АО</div><div class="sub">Реактивы, СО, колонки</div></div><div class="cnt">1508</div></div>
+          <div class="crow"><div><div class="nm">Отдел контроля качества · ОКК</div><div class="sub">Реактивы, СО, колонки</div></div><div class="cnt">1508</div></div>
           <div class="crow"><div><div class="nm">Микробиологический · МБО</div><div class="sub">Питательные среды, реактивы</div></div><div class="cnt">642</div></div>
           <div class="crow"><div><div class="nm">Физико-химический · ФХО</div><div class="sub">Реактивы, стандартные образцы</div></div><div class="cnt">910</div></div>
           <div class="crow"><div><div class="nm">Склад реактивов</div><div class="sub">Общее хранение</div></div><div class="cnt">2331</div></div>
@@ -318,7 +330,7 @@
           <input class="in" placeholder="Ацетон, ч.д.а.">
           <div style="height:12px"></div>
           <div class="flabel">Отдел</div>
-          <select class="in"><option>Аналитический отдел · АО</option><option>Микробиологический · МБО</option><option>Физико-химический · ФХО</option></select>
+          <select class="in"><option>Отдел контроля качества · ОКК</option><option>Микробиологический · МБО</option><option>Физико-химический · ФХО</option></select>
           <div class="flabel" style="margin-top:5px;color:var(--faint);font-weight:600">Позиция попадёт в реестр и журнал выбранного отдела.</div>
           <div style="height:8px"></div>
           <div class="flabel">Тип позиции</div>
@@ -394,7 +406,7 @@
 <script>
 (function(){
   const U={g:'г',ml:'мл',mg:'мг'};
-  const DEPT='Аналитический отдел · АО';
+  const DEPT='Отдел контроля качества · ОКК';
   let items=[
     {id:1,name:'Ацетонитрил, HPLC gradient',type:'Реактив',cas:'75-05-8',batch:'AC-25041',sup:'Merck',place:'раств. №12',code:'541-12-1',qty:2500,total:4000,unit:U.ml,exp:'2027-08-31',status:'ok'},
     {id:2,name:'Метанол, HPLC',type:'Реактив',cas:'67-56-1',batch:'ME-24118',sup:'Merck',place:'раств. №12',code:'671-12-2',qty:1000,total:4000,unit:U.ml,exp:'2027-05-31',status:'ok'},
@@ -455,7 +467,7 @@
       <div class="cardhero">
         <div class="badges">
           <span class="bdg type">${it.type}${it.prec?' · прекурсор':''}</span>
-          <span class="bdg dept">АО</span>
+          <span class="bdg dept">ОКК</span>
           <span class="bdg gd ${gdCls}">${gdTxt}</span>
         </div>
         <h2>${it.name}</h2>
