@@ -467,6 +467,7 @@ footer{padding:42px 0;color:var(--muted);font-size:14px}
         </div>
         <div class="field"><label>Комментарий</label><textarea name="message" placeholder="Сколько лабораторий, какие задачи — по желанию"></textarea></div>
         <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
+        <input type="text" name="url" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
         <label class="consent"><input type="checkbox" id="consent"><span>Я даю согласие на обработку персональных данных в соответствии с <a href="#" id="openPolicy">Политикой конфиденциальности</a>.</span></label>
         <button type="submit" class="btn btn-primary form-btn">Отправить заявку</button>
         <div class="form-fine">Нажимая кнопку, вы соглашаетесь на обработку контактных данных для ответа на заявку.</div>
@@ -518,12 +519,18 @@ const CONFIG = {
 };
 for(const id of ['okEmail','footEmail']){const el=document.getElementById(id);el.textContent=CONFIG.contactEmail;el.href='mailto:'+CONFIG.contactEmail;}
 const form=document.getElementById('pilotForm');
+const tokenUrl=CONFIG.formEndpoint?CONFIG.formEndpoint.replace(/\/?$/,'/')+'token':'';
+let formToken='';
+async function fetchToken(){if(!tokenUrl)return;try{const r=await fetch(tokenUrl,{headers:{'Accept':'application/json'}});if(r.ok){const j=await r.json();formToken=j.token||'';}}catch(_){}}
+fetchToken(); // получаем билет при загрузке страницы
 form.addEventListener('submit',async e=>{
   e.preventDefault();
   const d=Object.fromEntries(new FormData(form).entries());
   if(!d.company||!d.name||!d.contact){alert('Заполните, пожалуйста, поля со звёздочкой.');return;}
   if(!document.getElementById('consent').checked){alert('Пожалуйста, подтвердите согласие на обработку персональных данных.');return;}
   const ok=()=>{form.style.display='none';document.getElementById('formOk').style.display='block';};
+  if(!formToken){await fetchToken();} // подстраховка, если билет не успел прийти
+  d.token=formToken;
   if(CONFIG.formEndpoint){
     try{const r=await fetch(CONFIG.formEndpoint,{method:'POST',headers:{'Accept':'application/json','Content-Type':'application/json'},body:JSON.stringify(d)});if(r.ok){ok();return;}}catch(_){}
   }
