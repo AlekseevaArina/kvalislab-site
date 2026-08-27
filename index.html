@@ -13,24 +13,53 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 134'%3E%3Cpath d='M60 7 L101 21 Q106 22.7 106 28 L106 64 C106 92 88 114 62 126 Q60 127 58 126 C32 114 14 92 14 64 L14 28 Q14 22.7 19 21 Z' fill='%238579DB'/%3E%3C/svg%3E">
 <style>
 :root{
-  --ink:#20212B; --ink2:#42434F; --muted:#6E6F7B; --faint:#9A9BA6;
+  --ink:#20212B; --ink2:#42434F; --muted:#6E6F7B; --faint:#74757F;
   --bg:#FFFFFF; --panel:#F5F6FA; --card:#FFFFFF;
   --line:#E7E8EF; --rule:#D8DAE4;
   --purple:#8B7FE8; --purple2:#7568cf; --purple3:#5B4FB0; --lil:#9E95EE; --blue:#ACD1FD;
   --ink0:#191826; --on-dark:#B7B8C8; --on-dark2:#9C9BB4; --hair-d:rgba(255,255,255,.15);
   --tint-lab:#F6F5FC; --tint-doc:#F1F6FE;
-  --doc:#5B8DEF; --doc2:#3F74D6;
+  --doc:#5B8DEF; --doc2:#2F5FBC;
   --green:#2f9e5f; --amber:#DE8A2A; --red:#E5484D;
-  --maxw:1080px;
+  --maxw:1140px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:78px;-webkit-text-size-adjust:100%}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
   color:var(--ink);background:var(--bg);font-size:15.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--purple2);outline-offset:3px;border-radius:3px}
+.hero :focus-visible,.formsec :focus-visible,#together :focus-visible,
+header :focus-visible,footer :focus-visible{outline-color:var(--purple)}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
+}
 h1,h2,h3,h4{font-weight:700;letter-spacing:-.022em;line-height:1.18}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
-section.block{padding:78px 0;border-top:1px solid var(--line)}
+
+/* ---- линия прослеживаемости: идёт от шапки до подвала ---- */
+section.block{padding:0}
+section > .wrap{--rail:var(--rule);--rail-bg:var(--bg);--hair:var(--line);
+  position:relative;padding:74px 32px 74px 108px;
+  border-left:1px solid var(--rail);border-top:1px solid var(--hair)}
+header .wrap,footer .wrap{padding-left:108px;border-left:1px solid rgba(255,255,255,.18)}
+#lab > .wrap,#how > .wrap,#benefits > .wrap{--rail:var(--purple2)}
+#doc > .wrap{--rail:var(--doc);--rail-bg:var(--tint-doc);--hair:#DDE7FA}
+.hero > .wrap,#together > .wrap,#trial > .wrap{--rail:rgba(255,255,255,.2);--rail-bg:var(--ink0);--hair:rgba(255,255,255,.12)}
+.hero > .wrap{border-top:none}
+/* передача ответственности от КвалисЛаб к КвалисДок — двумя отрезками */
+#together > .wrap{border-left-color:transparent}
+#together > .wrap::before{content:"";position:absolute;left:-1px;top:0;bottom:0;width:1px;
+  background:linear-gradient(var(--purple2) 0 calc(100% - 168px),var(--doc) calc(100% - 168px) 100%)}
+.rail-mark{position:absolute;left:0;top:0;padding:17px 0 0 22px;font-size:11.5px;font-weight:700;
+  letter-spacing:.08em;color:var(--faint);font-variant-numeric:tabular-nums;line-height:1;pointer-events:none}
+.rail-mark::before{content:"";position:absolute;left:-5px;top:-4.5px;width:9px;height:9px;border-radius:50%;
+  background:var(--rail);box-shadow:0 0 0 4px var(--rail-bg)}
+#lab .rail-mark,#how .rail-mark,#benefits .rail-mark{color:var(--purple2)}
+#doc .rail-mark{color:var(--doc2)}
+#together .rail-mark{color:#8B8C9E}
+.rail-mark{color:var(--muted)}
 
 .eyebrow{display:inline-flex;align-items:center;gap:11px;font-size:11.5px;font-weight:600;
   letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
@@ -65,7 +94,8 @@ header{position:sticky;top:0;z-index:60;background:var(--ink0);color:#fff;border
 .nav .btn-primary:hover{background:#9E93F0}
 
 /* ---------- герой ---------- */
-.hero{position:relative;overflow:hidden;padding:98px 0 82px;background:var(--ink0);color:#fff}
+.hero{position:relative;overflow:hidden;padding:0;background:var(--ink0);color:#fff}
+.hero > .wrap{padding-top:94px;padding-bottom:0}
 .hero::before{content:"";position:absolute;inset:0;pointer-events:none;
   background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
                    linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
@@ -82,7 +112,7 @@ header{position:sticky;top:0;z-index:60;background:var(--ink0);color:#fff;border
 .hero .btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.07)}
 .hero-umb{display:grid;grid-template-columns:minmax(0,1.16fr) minmax(0,.84fr);gap:0 56px;align-items:start}
 .hero-umb .eyebrow{grid-column:1/-1;margin-bottom:26px}
-.hero-umb h1{grid-column:1/-1;grid-row:2;font-size:clamp(33px,5.3vw,58px);line-height:1.02;letter-spacing:-.035em;max-width:17ch}
+.hero-umb h1{grid-column:1/-1;grid-row:2;font-size:clamp(30px,5.3vw,58px);line-height:1.02;letter-spacing:-.035em;max-width:17ch}
 .hero-umb .lead{grid-column:2;grid-row:3;font-size:16.5px;color:var(--on-dark);margin-top:36px}
 .hero-umb .lead b{font-weight:700;color:#fff}
 .cta-row{grid-column:1;grid-row:3;display:flex;gap:12px;flex-wrap:wrap;margin-top:36px;align-content:start}
@@ -91,24 +121,26 @@ header{position:sticky;top:0;z-index:60;background:var(--ink0);color:#fff;border
 .chips-row span{font-size:13.5px;color:#9FA0B2;padding:0 22px;border-left:1px solid var(--hair-d)}
 .chips-row span:first-child{padding-left:0;border-left:none}
 
-/* ---------- два продукта ---------- */
-.prods{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:12px;overflow:hidden}
-.prod{position:relative;display:flex;flex-direction:column;padding:34px 32px;background:var(--tint-lab);
-  border-left:1px solid var(--line);transition:background .15s}
-.prod.d{background:var(--tint-doc)}
-.prod:first-child{border-left:none}
-.prod::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--purple2)}
-.prod.d::before{background:var(--doc)}
-.prod:hover,.prod.d:hover{background:#fff}
-.prod .cap{font-size:11.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--purple2)}
-.prod.d .cap{color:var(--doc2)}
-.prod h3{font-size:25px;margin:10px 0 12px;letter-spacing:-.028em}
-.prod > p{font-size:15px;color:var(--muted);margin-bottom:20px}
-.prod .st{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;color:var(--ink2);margin-bottom:20px}
-.prod .dot{width:7px;height:7px;border-radius:50%;background:var(--green)}
-.prod .dot.am{background:var(--amber)}
-.prod .more{margin-top:auto;font-weight:600;font-size:14.5px;color:var(--purple2)}
-.prod.d .more{color:var(--doc2)}
+/* ---------- развилка: два продукта в герое ---------- */
+.fork{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;margin:56px 0 0 -108px;
+  border-top:1px solid rgba(255,255,255,.14)}
+.fk{position:relative;display:flex;flex-direction:column;padding:30px 40px 46px;
+  border-left:1px solid rgba(255,255,255,.14);transition:background .15s}
+.fk:first-child{border-left:none;padding-left:108px}
+.fk::before{content:"";position:absolute;top:-5px;left:-5px;width:9px;height:9px;border-radius:50%;
+  background:var(--purple);box-shadow:0 0 0 4px var(--ink0)}
+.fk.d::before{background:var(--doc)}
+.fk .fk-top{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.fk .cap{font-size:11.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--purple)}
+.fk.d .cap{color:#8DB2F5}
+.fk .st{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:#9FA0B2}
+.fk .dot{width:7px;height:7px;border-radius:50%;background:var(--green)}
+.fk .dot.am{background:var(--amber)}
+.fk h2{font-size:26px;letter-spacing:-.03em;margin:14px 0 12px;color:#fff}
+.fk p{font-size:15px;color:var(--on-dark);margin-bottom:20px}
+.fk .more{margin-top:auto;font-weight:600;font-size:14.5px;color:var(--purple)}
+.fk.d .more{color:#8DB2F5}
+.fk:hover{background:rgba(255,255,255,.035)}
 
 /* ---------- до и после ---------- */
 .cmp{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:12px;overflow:hidden}
@@ -156,6 +188,9 @@ header{position:sticky;top:0;z-index:60;background:var(--ink0);color:#fff;border
 .bcard p{font-size:14px;color:var(--muted)}
 .demoframe{display:block;width:100%;max-width:372px;height:782px;border:0;margin:0 auto}
 .galcap{font-size:13.5px;color:var(--muted);margin-top:14px;text-align:center}
+.demo-link{display:none;border:1px solid var(--rule);border-radius:10px;padding:20px 22px;background:var(--tint-lab)}
+.demo-link b{display:block;font-size:16px;color:var(--purple3);margin-bottom:5px}
+.demo-link span{font-size:13.5px;color:var(--muted)}
 
 /* ---------- КвалисДок ---------- */
 #doc{background:var(--tint-doc);border-top-color:#DDE7FA}
@@ -210,15 +245,26 @@ header{position:sticky;top:0;z-index:60;background:var(--ink0);color:#fff;border
 .price h4{font-size:19px}
 .price .amt{font-size:32px;font-weight:700;letter-spacing:-.035em;margin:14px 0 0;font-variant-numeric:tabular-nums}
 .price .amt small{font-size:15px;font-weight:600;color:var(--muted);letter-spacing:0}
-.price .save{font-size:13.5px;font-weight:600;color:var(--purple2);margin-top:6px}
+.price .save{font-size:13.5px;font-weight:600;color:var(--purple3);margin-top:6px}
 .price .desc{font-size:14px;color:var(--muted);margin:16px 0 20px;padding-bottom:20px;border-bottom:1px solid var(--line)}
 .price .inc-h{font-size:13px;font-weight:700;margin-bottom:12px}
+.price .inc{margin-bottom:24px}
+.price .inc > ul{margin-bottom:0}
+.price .inc summary{list-style:none;display:block;position:relative;cursor:pointer;
+  font-size:13px;font-weight:700;padding:0 26px 12px 0}
+.price .inc summary::-webkit-details-marker{display:none}
+.price .inc summary::marker{content:""}
+.price .inc summary:focus-visible{outline:2px solid var(--purple2);outline-offset:3px;border-radius:3px}
+.price .inc .chev{position:absolute;right:2px;top:1px;width:13px;height:13px;stroke:var(--muted);
+  fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+.price .inc[open] .chev{transform:rotate(180deg)}
+@media(min-width:901px){.price .inc summary{cursor:default;padding-right:0}.price .inc .chev{display:none}}
 .price ul{list-style:none;display:flex;flex-direction:column;gap:11px;font-size:14.5px;margin-bottom:24px}
 .price li{padding-left:23px;position:relative;color:var(--ink2)}
 .price li svg{position:absolute;left:0;top:5px;width:13px;height:13px;stroke:var(--purple2);fill:none;
   stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 .lab-add{border-top:1px solid var(--line);padding-top:18px;margin-bottom:24px}
-.lab-add .inc-h{color:var(--purple2)}
+.lab-add .inc-h{color:var(--purple3)}
 .lab-add ul{margin-bottom:0}
 .price .btn{margin-top:auto}
 .price[hidden],[hidden]{display:none}
@@ -301,8 +347,8 @@ header{position:sticky;top:0;z-index:60;background:var(--ink0);color:#fff;border
 .consent a{color:var(--purple2);font-weight:600;text-decoration:underline}
 
 /* ---------- футер ---------- */
-footer{padding:30px 0 36px;background:var(--ink0);color:#8A8B9C;font-size:13.5px;
-  border-top:1px solid rgba(255,255,255,.1)}
+footer{padding:0;background:var(--ink0);color:#8A8B9C;font-size:13.5px}
+footer .wrap{padding-top:30px;padding-bottom:38px;border-top:1px solid rgba(255,255,255,.12)}
 .foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
 .foot strong{color:#fff}
 .foot a{color:var(--purple);font-weight:600}
@@ -328,18 +374,30 @@ footer{padding:30px 0 36px;background:var(--ink0);color:#8A8B9C;font-size:13.5px
 .modal-meta{font-size:12.5px;color:var(--faint);margin-top:18px}
 
 /* ================= адаптив ================= */
+@media(max-width:1180px){
+  section > .wrap{padding-left:88px}
+  header .wrap,footer .wrap{padding-left:88px}
+  .rail-mark{padding-left:20px}
+}
 @media(max-width:980px){
-  .ben-demo{grid-template-columns:1fr;gap:34px}
-  .demoframe{max-width:340px}
+  .ben-demo{grid-template-columns:1fr;gap:30px}
+  .demoframe,.galcap{display:none}
+  .demo-link{display:block}
   .trial-grid{grid-template-columns:1fr;gap:30px}
+  .fork{grid-template-columns:1fr;margin:44px 0 0 -108px}
+  .fk,.fk:first-child{padding:26px 40px 30px 108px;border-left:none;
+    border-top:1px solid rgba(255,255,255,.14)}
+  .fk:first-child{border-top:none}
 }
 @media(max-width:900px){
-  .sec-head{grid-template-columns:1fr;gap:12px;margin-bottom:34px}
+  .sec-head{grid-template-columns:1fr;gap:12px;margin-bottom:32px}
   .sec-head h2,.sec-head p{grid-column:1}
-  .hero-umb{grid-template-columns:1fr;gap:0}
-  .hero-umb h1{grid-column:1;grid-row:auto;max-width:none}
-  .hero-umb .lead{grid-column:1;grid-row:auto;margin-top:20px}
-  .cta-row{grid-column:1;grid-row:auto;margin-top:30px}
+  .hero-umb{display:flex;flex-direction:column}
+  .hero-umb .eyebrow{order:1}
+  .hero-umb h1{order:2;max-width:none}
+  .cta-row{order:3;margin-top:28px}
+  .hero-umb .lead{order:4;margin-top:28px}
+  .chips-row{order:5}
   .steps,.steps.three{grid-template-columns:1fr 1fr}
   .prices{grid-template-columns:1fr}
   .risk{grid-template-columns:1fr;gap:0}
@@ -349,42 +407,75 @@ footer{padding:30px 0 36px;background:var(--ink0);color:#8A8B9C;font-size:13.5px
   .brand{order:1;font-size:17px}
   .nav .btn{order:2;padding:8px 14px;font-size:13.5px}
   .nav-links{order:3;flex:1 0 100%;justify-content:space-between;gap:10px;margin-top:8px;
-    font-size:13.5px;padding:9px 0;border-top:1px solid var(--line)}
+    font-size:13.5px;border-top:1px solid rgba(255,255,255,.12)}
+  .nav-links a{display:flex;align-items:center;min-height:44px}
+  .more{display:inline-flex;align-items:center;min-height:44px}
+  .brand{min-height:44px}
+  .nav .btn{min-height:44px;padding:10px 14px}
+  .price .inc summary{padding:12px 26px 14px 0}
+  .enterprise a,.foot a{display:inline-flex;align-items:center;min-height:44px}
 }
+/* линия уходит к самому краю, номер раздела встаёт над надзаголовком */
 @media(max-width:760px){
-  .prods,.cmp{grid-template-columns:1fr}
-  .prod{border-left:none;border-top:1px solid var(--line)}
-  .prod:first-child{border-top:none}
-  .chain{grid-template-columns:1fr;gap:20px;margin-top:38px;padding-top:0}
+  section > .wrap{padding:48px 20px 48px 22px;border-left-width:2px}
+  header .wrap,footer .wrap{padding-left:22px;padding-right:20px;border-left-width:2px}
+  .hero > .wrap{padding-top:54px;padding-bottom:0}
+  #together > .wrap::before{width:2px;left:-2px;
+    background:linear-gradient(var(--purple2) 0 calc(100% - 190px),var(--doc) calc(100% - 190px) 100%)}
+  .rail-mark{position:static;padding:0 0 14px}
+  .fork{margin:38px 0 0 -22px}
+  .fk,.fk:first-child{padding:24px 0 26px 22px}
+  .rail-mark::before{left:-25px;top:2px;width:8px;height:8px;box-shadow:0 0 0 3px var(--rail-bg)}
+  .cmp{grid-template-columns:1fr}
+  .cmp .new{border-left:none;border-top:1px solid var(--line)}
+  .chain{grid-template-columns:1fr;gap:18px;margin-top:34px;padding-top:0}
   .chain::before{display:none}
   .chain .cb{padding:0 0 0 26px}
   .chain .cb::before{top:6px;left:0;box-shadow:0 0 0 4px var(--ink0)}
-  .cmp .new{border-left:none;border-top:1px solid var(--line)}
-  .ob,.dgrid,.sec-list{grid-template-columns:1fr}
-  .oi{border-left:none;border-top:1px solid var(--line);padding:22px 0}
-  .oi:first-child{border-top:none;padding-top:22px}
+  .ob,.sec-list{grid-template-columns:1fr}
+  .dgrid{grid-template-columns:1fr 1fr;gap:0 20px}
+  .dcard{padding:15px 0}
+  .dcard h4{font-size:13.5px}
+  .dcard p{font-size:12px;line-height:1.4}
+  .oi{border-left:none;border-top:1px solid var(--line);padding:20px 0}
+  .oi:first-child{border-top:none;padding-top:20px}
   .sec-list > div:nth-child(2){border-top:1px solid var(--line)}
   .steps,.steps.three{grid-template-columns:1fr}
-  .step{border-left:none;padding:22px 0 0}
-  .step:first-child{padding-top:22px}
+  .step{border-left:none;padding:20px 0 0}
+  .step:first-child{padding-top:20px}
+  .labonly .prices{gap:0}
+  .labonly .price.sm{border:none;border-top:1px solid var(--line);border-radius:0;padding:20px 0}
+  .labonly .price.sm:first-child{border-top:none}
+  .labonly .price.sm .desc{border-bottom:none;padding-bottom:0;margin-bottom:14px}
+  .labonly .price.sm .btn{align-self:flex-start;padding:9px 16px}
 }
 @media(max-width:620px){
-  section.block{padding:52px 0}
-  .hero{padding:52px 0 46px}
-  .wrap{padding:0 20px}
-  .cards{grid-template-columns:1fr}
+  .cards{grid-template-columns:1fr 1fr;gap:12px}
+  .bcard{padding:18px 16px}
+  .bcard .ic{width:30px;height:30px;margin-bottom:11px}
+  .bcard h4{font-size:14.5px}
+  .bcard p{font-size:13px}
   .formrow{grid-template-columns:1fr}
-  .cmp .col,.prod{padding:26px 22px}
-  .sbox{padding:4px 22px}
-  .trust{padding:24px 22px}
-  .pricectx{padding:20px 22px}
+  .cmp .col{padding:24px 20px}
+  .sbox{padding:4px 20px}
+  .trust{padding:22px 20px}
+  .pricectx{padding:20px}
+  .price{padding:22px 20px}
+  .price ul{gap:9px;font-size:14px;margin-bottom:20px}
+  .price .desc{margin:14px 0 16px;padding-bottom:16px}
+  .sec-list > div{padding:16px 0;font-size:14px}
+  .faq summary{padding:15px 34px 15px 0;font-size:15.5px}
+  .faq p{padding-bottom:17px}
   .cta-row .btn{width:100%}
   .chips-row{flex-direction:column;gap:9px}
   .chips-row span{padding:0;border-left:none}
   .sw{width:100%}
-  .sw button{flex:1;padding:10px 8px;font-size:13px}
+  .sw button{flex:1;padding:13px 8px;font-size:13px;min-height:44px}
   .floatcta{right:16px;bottom:16px}
   .modal-card{padding:26px 22px}
+}
+@media(max-width:400px){
+  .cards{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -426,25 +517,18 @@ footer{padding:30px 0 36px;background:var(--ink0);color:#8A8B9C;font-size:13.5px
         <span>Пилот на действующем производстве</span>
       </div>
     </div>
-  </div>
-</section>
 
-<section class="block" id="products">
-  <div class="wrap">
-    <div class="sec-head"><div class="eyebrow">Продукты</div><h2>КвалисЛаб и КвалисДок</h2></div>
-    <div class="prods">
-      <a class="prod" href="#lab">
-        <div class="cap">Лаборатория</div>
-        <h3>КвалисЛаб</h3>
+    <div class="fork" id="products">
+      <a class="fk" href="#lab">
+        <div class="fk-top"><span class="cap">Лаборатория</span><span class="st"><span class="dot"></span>Работает</span></div>
+        <h2>КвалисЛаб</h2>
         <p>Учёт и списание реактивов, стандартных образцов и остального МТО. Сканируете QR на упаковке — списание проходит за секунды, остаток пересчитывается сам.</p>
-        <div class="st"><span class="dot"></span>Работает</div>
         <span class="more">Подробнее →</span>
       </a>
-      <a class="prod d" href="#doc">
-        <div class="cap">Регистрация и качество</div>
-        <h3>КвалисДок</h3>
+      <a class="fk d" href="#doc">
+        <div class="fk-top"><span class="cap">Регистрация и качество</span><span class="st"><span class="dot am"></span>Пилот на производстве</span></div>
+        <h2>КвалисДок</h2>
         <p>Регуляторная и качественная документация: аналитические паспорта, Модуль 3 досье по ЕАЭС, проверка НДК и валидация методик. Значения переносятся из источников без ручного ввода.</p>
-        <div class="st"><span class="dot am"></span>Пилот на производстве</div>
         <span class="more">Подробнее →</span>
       </a>
     </div>
@@ -453,6 +537,7 @@ footer{padding:30px 0 36px;background:var(--ink0);color:#8A8B9C;font-size:13.5px
 
 <section class="block" id="lab">
   <div class="wrap">
+    <div class="rail-mark">01</div>
     <div class="sec-head"><div class="eyebrow">КвалисЛаб · Лаборатория</div><h2>Учёт МТО: до и после</h2><p>Сегодня учёт ведётся вручную в Excel и бумажных журналах. КвалисЛаб переносит его в телефон.</p></div>
     <div class="cmp">
       <div class="col now">
@@ -486,6 +571,7 @@ footer{padding:30px 0 36px;background:var(--ink0);color:#8A8B9C;font-size:13.5px
 
 <section class="block" id="how">
   <div class="wrap">
+    <div class="rail-mark">02</div>
     <div class="sec-head"><div class="eyebrow">КвалисЛаб · Как это работает</div><h2>Всё строится вокруг сканирования</h2></div>
     <div class="steps">
       <div class="step"><div class="n">1</div><h4>Заводите позиции</h4><p>Реактивы, стандартные образцы, колонки. На старте перенесём ваш Excel-журнал.</p></div>
@@ -498,6 +584,7 @@ footer{padding:30px 0 36px;background:var(--ink0);color:#8A8B9C;font-size:13.5px
 
 <section class="block" id="benefits">
   <div class="wrap">
+    <div class="rail-mark">03</div>
     <div class="sec-head"><div class="eyebrow">КвалисЛаб · Преимущества</div><h2>Что получает лаборатория</h2></div>
     <div class="ben-demo">
     <div class="cards">
@@ -509,6 +596,10 @@ footer{padding:30px 0 36px;background:var(--ink0);color:#8A8B9C;font-size:13.5px
     <div class="demo-side">
       <iframe class="demoframe" src="demo.html" title="Интерактивное демо КвалисЛаб" loading="lazy"></iframe>
       <div class="galcap">Демо: можно листать и нажимать</div>
+      <a class="demo-link" href="demo.html" target="_blank" rel="noopener">
+        <b>Открыть демо приложения →</b>
+        <span>На весь экран — так его и увидят сотрудники лаборатории</span>
+      </a>
     </div>
     </div>
   </div>
@@ -516,6 +607,7 @@ footer{padding:30px 0 36px;background:var(--ink0);color:#8A8B9C;font-size:13.5px
 
 <section class="block" id="doc">
   <div class="wrap">
+    <div class="rail-mark">04</div>
     <div class="sec-head"><div class="eyebrow doc-eyebrow">КвалисДок</div><h2>Регуляторные документы — без ручного переноса цифр</h2><p>Паспорта качества, разделы Модуля 3, НДК и отчёты по валидации собираются вручную в Word. Специалист неделями переносит значения из отчётов в документы, а одно расхождение возвращает досье с экспертизы.</p></div>
     <div class="steps three">
       <div class="step"><div class="n">1</div><h4>Загружаете исходники</h4><p>Спецификацию, карту показателей, план исследования стабильности — те файлы, которые у вас уже есть.</p></div>
@@ -547,6 +639,7 @@ footer{padding:30px 0 36px;background:var(--ink0);color:#8A8B9C;font-size:13.5px
 
 <section class="block" id="together">
   <div class="wrap">
+    <div class="rail-mark">05</div>
     <div class="sec-head"><div class="eyebrow">Вместе</div><h2>Вместе — одна прослеживаемая цепочка</h2></div>
     <div class="tog">
       <p>На инспекции спрашивают два вопроса. Откуда взялся реактив, которым делали этот анализ? И откуда взялась эта цифра в паспорте качества?</p>
@@ -566,6 +659,7 @@ footer{padding:30px 0 36px;background:var(--ink0);color:#8A8B9C;font-size:13.5px
 
 <section class="block" id="pricing">
   <div class="wrap">
+    <div class="rail-mark">06</div>
     <div class="sec-head">
       <div class="eyebrow">Тарифы</div>
       <h2>Цена одного специалиста — вместо работы, которую он делает руками</h2>
@@ -589,15 +683,17 @@ footer{padding:30px 0 36px;background:var(--ink0);color:#8A8B9C;font-size:13.5px
         <div class="amt"><span data-price>70 000 ₽</span><small data-unit> / мес</small></div>
         <div class="save" data-save hidden></div>
         <div class="desc">До 10 пользователей. Для одного отдела регистрации или качества.</div>
-        <div class="inc-h">Что входит:</div>
-        <ul>
+        <details class="inc" data-def="0">
+          <summary>Что входит<svg class="chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <ul>
           <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Аналитические паспорта из ваших спецификаций и планов стабильности</li>
           <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Модуль 3 досье по формату CTD ЕАЭС</li>
           <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Проверка НДК и валидация аналитических методик</li>
           <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>База знаний ЕАЭС и ГФ РФ с умным поиском</li>
           <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>ИИ-ассистент по регуляторике со ссылками на источники</li>
           <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Перенос ваших шаблонов и обучение команды на старте</li>
-        </ul>
+          </ul>
+        </details>
         <div class="lab-add" hidden>
           <div class="inc-h">Плюс КвалисЛаб</div>
           <ul>
@@ -615,14 +711,16 @@ footer{padding:30px 0 36px;background:var(--ink0);color:#8A8B9C;font-size:13.5px
         <div class="amt"><span data-price>90 000 ₽</span><small data-unit> / мес</small></div>
         <div class="save" data-save hidden></div>
         <div class="desc">До 25 пользователей. Регистрация, качество и ОКК работают в одном контуре.</div>
-        <div class="inc-h">Всё из тарифа «Отдел», плюс:</div>
-        <ul>
+        <details class="inc" data-def="1">
+          <summary>Всё из тарифа «Отдел», плюс<svg class="chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <ul>
           <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Стабильность, ТСКР, PQR и проверка макетов</li>
           <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Формирование URS на оборудование</li>
           <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Производственные формы, СОПы, промышленный регламент, электронные журналы</li>
           <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Контроль изменений и доска задач по проектам</li>
           <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Приоритетная поддержка в рабочие часы</li>
-        </ul>
+          </ul>
+        </details>
         <div class="lab-add" hidden>
           <div class="inc-h">Плюс КвалисЛаб</div>
           <ul>
@@ -639,13 +737,15 @@ footer{padding:30px 0 36px;background:var(--ink0);color:#8A8B9C;font-size:13.5px
         <div class="amt"><span data-price>140 000 ₽</span><small data-unit> / мес</small></div>
         <div class="save" data-save hidden></div>
         <div class="desc">От 50 пользователей. Несколько отделов, единое администрирование.</div>
-        <div class="inc-h">Всё из тарифа «Производство», плюс:</div>
-        <ul>
+        <details class="inc" data-def="0">
+          <summary>Всё из тарифа «Производство», плюс<svg class="chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <ul>
           <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Отдельные пространства под площадки и подразделения</li>
           <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Единое администрирование ролей и доступов</li>
           <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Помощь с валидационным пакетом: URS, протоколы IQ/OQ, описание аудит-трейла</li>
           <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Персональный менеджер внедрения</li>
-        </ul>
+          </ul>
+        </details>
         <div class="lab-add" hidden>
           <div class="inc-h">Плюс КвалисЛаб</div>
           <ul>
@@ -743,6 +843,7 @@ footer{padding:30px 0 36px;background:var(--ink0);color:#8A8B9C;font-size:13.5px
 
 <section class="block" id="security">
   <div class="wrap">
+    <div class="rail-mark">07</div>
     <div class="sec-head"><div class="eyebrow">Безопасность и соответствие РФ</div><h2>Данные под защитой</h2><p>Одни и те же правила для КвалисЛаб и КвалисДок.</p></div>
     <div class="sbox">
       <div class="sec-list">
@@ -903,6 +1004,14 @@ document.querySelectorAll('.sw').forEach(sw=>{
   });
 });
 renderPricing();
+
+/* на широком экране список «что входит» всегда раскрыт, на телефоне — только у рекомендованного */
+const wide=matchMedia('(min-width:901px)');
+function syncIncludes(){
+  document.querySelectorAll('.price .inc').forEach(d=>{ d.open = wide.matches || d.dataset.def==='1'; });
+}
+syncIncludes();
+wide.addEventListener('change',syncIncludes);
 </script>
 </body>
 </html>
