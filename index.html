@@ -944,18 +944,12 @@ const CONFIG = {
 for(const id of ['okEmail','footEmail']){const el=document.getElementById(id);el.textContent=CONFIG.contactEmail;el.href='mailto:'+CONFIG.contactEmail;}
 const PRODUCT_LABELS={lab:'КвалисЛаб — учёт МТО лаборатории',doc:'КвалисДок — регуляторная документация',both:'Оба продукта'};
 const form=document.getElementById('pilotForm');
-const tokenUrl=CONFIG.formEndpoint?CONFIG.formEndpoint.replace(/\/?$/,'/')+'token':'';
-let formToken='';
-async function fetchToken(){if(!tokenUrl)return;try{const r=await fetch(tokenUrl,{headers:{'Accept':'application/json'}});if(r.ok){const j=await r.json();formToken=j.token||'';}}catch(_){}}
-fetchToken(); // получаем билет при загрузке страницы
 form.addEventListener('submit',async e=>{
   e.preventDefault();
   const d=Object.fromEntries(new FormData(form).entries());
   if(!d.product||!d.company||!d.name||!d.contact){alert('Заполните, пожалуйста, поля со звёздочкой.');return;}
   if(!document.getElementById('consent').checked){alert('Пожалуйста, подтвердите согласие на обработку персональных данных.');return;}
   const ok=()=>{form.style.display='none';document.getElementById('formOk').style.display='block';};
-  if(!formToken){await fetchToken();} // подстраховка, если билет не успел прийти
-  d.token=formToken;
   if(CONFIG.formEndpoint){
     try{const r=await fetch(CONFIG.formEndpoint,{method:'POST',headers:{'Accept':'application/json','Content-Type':'application/json'},body:JSON.stringify(d)});if(r.ok){ok();return;}}catch(_){}
   }
