@@ -340,6 +340,10 @@ header{position:sticky;top:0;z-index:60;background:var(--ink0);color:#fff;border
 .form-btn{width:100%;padding:14px;font-size:15.5px;margin-top:4px}
 .form-fine{font-size:12.5px;color:var(--muted);margin-top:14px}
 .form-ok{display:none;padding:14px 0}
+.form-err{margin-top:12px;padding:12px 14px;border-radius:10px;font-size:14px;line-height:1.5;
+  background:#FCEDEC;border:1px solid #F2C7C4;color:#8E2B25}
+.form-err a{color:#8E2B25;font-weight:700;text-decoration:underline}
+.form-btn[disabled]{opacity:.6;cursor:progress}
 .form-ok .big{font-size:20px;font-weight:700;margin-bottom:8px}
 .consent{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;color:var(--muted);
   margin:4px 0 16px;line-height:1.45;cursor:pointer}
@@ -893,10 +897,11 @@ footer .wrap{padding-top:30px;padding-bottom:38px;border-top:1px solid rgba(255,
         <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
         <input type="text" name="url" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
         <label class="consent"><input type="checkbox" id="consent"><span>Я даю согласие на обработку персональных данных в соответствии с <a href="#" id="openPolicy">Политикой конфиденциальности</a>.</span></label>
-        <button type="submit" class="btn btn-primary form-btn">Отправить заявку</button>
+        <button type="submit" class="btn btn-primary form-btn" id="formSubmit">Отправить заявку</button>
+        <p class="form-err" id="formErr" role="alert" hidden></p>
         <div class="form-fine">Нажимая кнопку, вы соглашаетесь на обработку контактных данных для ответа на заявку.</div>
       </form>
-      <div class="form-ok" id="formOk">
+      <div class="form-ok" id="formOk" role="status" aria-live="polite" tabindex="-1">
         <div class="big">Спасибо! Заявка отправлена</div>
         <div style="color:#6b6c7a">Мы свяжемся с вами в течение рабочего дня. Если письмо не открылось автоматически — напишите нам на <a href="#" id="okEmail" style="color:#7568cf;font-weight:700"></a>.</div>
       </div>
@@ -944,18 +949,43 @@ const CONFIG = {
 for(const id of ['okEmail','footEmail']){const el=document.getElementById(id);el.textContent=CONFIG.contactEmail;el.href='mailto:'+CONFIG.contactEmail;}
 const PRODUCT_LABELS={lab:'КвалисЛаб — учёт МТО лаборатории',doc:'КвалисДок — регуляторная документация',both:'Оба продукта'};
 const form=document.getElementById('pilotForm');
+const submitBtn=document.getElementById('formSubmit');
+const errBox=document.getElementById('formErr');
+let sending=false;
+
+function showError(msg){
+  errBox.innerHTML=msg+' Напишите нам на <a href="mailto:'+CONFIG.contactEmail+'">'+CONFIG.contactEmail+'</a> — ответим так же быстро.';
+  errBox.hidden=false;
+}
+
 form.addEventListener('submit',async e=>{
   e.preventDefault();
+  if(sending)return;                                   // защита от двойного клика
   const d=Object.fromEntries(new FormData(form).entries());
   if(!d.product||!d.company||!d.name||!d.contact){alert('Заполните, пожалуйста, поля со звёздочкой.');return;}
   if(!document.getElementById('consent').checked){alert('Пожалуйста, подтвердите согласие на обработку персональных данных.');return;}
-  const ok=()=>{form.style.display='none';document.getElementById('formOk').style.display='block';};
-  if(CONFIG.formEndpoint){
-    try{const r=await fetch(CONFIG.formEndpoint,{method:'POST',headers:{'Accept':'application/json','Content-Type':'application/json'},body:JSON.stringify(d)});if(r.ok){ok();return;}}catch(_){}
+
+  sending=true; errBox.hidden=true;
+  submitBtn.disabled=true; const label=submitBtn.textContent; submitBtn.textContent='Отправляем…';
+
+  try{
+    const r=await fetch(CONFIG.formEndpoint,{method:'POST',
+      headers:{'Accept':'application/json','Content-Type':'application/json'},
+      body:JSON.stringify(d)});
+    if(r.ok){
+      form.style.display='none';
+      const okBox=document.getElementById('formOk');
+      okBox.style.display='block'; okBox.focus();
+      return;
+    }
+    showError(r.status===429
+      ? 'Слишком много заявок с вашего адреса за короткое время — попробуйте через несколько минут.'
+      : 'Не удалось отправить заявку.');
+  }catch(_){
+    showError('Не удалось отправить заявку: нет связи с сервером.');
+  }finally{
+    sending=false; submitBtn.disabled=false; submitBtn.textContent=label;
   }
-  const s=encodeURIComponent('Заявка Квалис ('+(PRODUCT_LABELS[d.product]||d.product)+') — '+d.company);
-  const b=encodeURIComponent('Что интересует: '+(PRODUCT_LABELS[d.product]||d.product)+'\nКомпания: '+d.company+'\nИмя: '+d.name+'\nДолжность: '+(d.role||'—')+'\nКонтакт: '+d.contact+'\nКомментарий: '+(d.message||'—'));
-  window.location.href='mailto:'+CONFIG.contactEmail+'?subject='+s+'&body='+b; ok();
 });
 const fc=document.getElementById('floatcta');
 window.addEventListener('scroll',()=>{fc.classList.toggle('show',window.scrollY>640);},{passive:true});
