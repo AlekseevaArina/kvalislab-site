@@ -61,9 +61,7 @@ b,strong{font-weight:600;color:var(--ink)}
 .reveal-all [data-reveal]{opacity:1!important;transform:none!important}
 
 /* ================= надзаголовок и заголовок раздела ================= */
-.eyebrow{display:inline-flex;align-items:flex-start;gap:10px;font-size:var(--fs-micro);font-weight:500;
-  letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
-.eyebrow::before{content:"";flex:0 0 6px;width:6px;height:6px;margin-top:.55em;border-radius:50%;background:var(--brand)}
+.eyebrow{display:block;font-size:var(--fs-small);font-weight:500;color:var(--mute)}
 section{position:relative;padding:var(--sec) 0}
 section.soft{background:var(--soft)}
 .sec-head{margin-bottom:clamp(48px,6vw,88px)}
@@ -101,13 +99,6 @@ header.scrolled{background:rgba(255,255,255,.78);-webkit-backdrop-filter:saturat
 
 /* ================= первый экран ================= */
 .hero{padding:clamp(140px,16vw,196px) 0 clamp(72px,9vw,120px);overflow:hidden}
-.hero .aura{position:absolute;border-radius:50%;pointer-events:none;will-change:transform}
-.hero .aura.a1{width:760px;height:760px;right:-220px;top:-260px;
-  background:radial-gradient(circle,rgba(91,76,219,.16) 0%,rgba(91,76,219,0) 62%);animation:drift1 24s ease-in-out infinite alternate}
-.hero .aura.a2{width:620px;height:620px;left:-260px;top:280px;
-  background:radial-gradient(circle,rgba(14,15,20,.05) 0%,rgba(14,15,20,0) 62%);animation:drift2 30s ease-in-out infinite alternate}
-@keyframes drift1{to{transform:translate(-90px,70px) scale(1.08)}}
-@keyframes drift2{to{transform:translate(80px,-50px) scale(1.05)}}
 .hero .wrap{position:relative;z-index:1}
 .hero-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,.6fr);gap:56px;align-items:center}
 .hero .eyebrow{margin-bottom:32px}
@@ -119,23 +110,26 @@ header.scrolled{background:rgba(255,255,255,.78);-webkit-backdrop-filter:saturat
 .hero .lead{margin-top:32px;font-size:var(--fs-lead);line-height:1.6;color:var(--mute);max-width:46ch}
 .hero .lead b{color:var(--ink)}
 .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:44px}
-.chips-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:48px}
-.chips-row span{font-size:var(--fs-micro);color:var(--text);padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.6)}
+.chips-row{display:grid;grid-template-columns:auto auto minmax(0,1fr);margin-top:56px;padding-top:24px;border-top:1px solid var(--line)}
+.chips-row span{font-size:var(--fs-small);color:var(--mute);padding:0 20px;border-left:1px solid var(--line-2);line-height:1.4}
+.chips-row span:first-child{padding-left:0;border-left:none}
 
-/* живой прототип */
-.device{display:flex;flex-direction:column;align-items:center;--scale:.8;--dw:372px;--dh:782px}
+/* живой прототип: свой корпус рисует demo.html, мы только ставим его в пространство */
+.device{--scale:.8;--dw:372px;--dh:853px;--rx:7deg;--ry:-16deg;display:flex;flex-direction:column;align-items:center}
+.device-stage{perspective:1800px}
+.device-tilt{transform:rotateX(var(--rx)) rotateY(var(--ry));transform-style:preserve-3d;
+  transition:transform 1.4s var(--ease);will-change:transform}
+.device:not(.in) .device-tilt{transform:rotateX(22deg) rotateY(-38deg) translateZ(-60px)}
+.device-tilt.flat{transform:none}
+.reveal-all .device:not(.in) .device-tilt{transform:rotateX(var(--rx)) rotateY(var(--ry))}
 .device-float{animation:float 8s ease-in-out infinite}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-.device-frame{position:relative;overflow:hidden;width:calc((var(--dw) + 24px) * var(--scale));height:calc((var(--dh) + 24px) * var(--scale));
-  border-radius:calc(56px * var(--scale))}
-.device-body{position:absolute;left:0;top:0;width:calc(var(--dw) + 24px);height:calc(var(--dh) + 24px);padding:12px;
-  transform:scale(var(--scale));transform-origin:0 0;background:#F1F1F5;border-radius:56px;
-  box-shadow:inset 0 0 0 1px rgba(14,15,20,.06)}
-.device-body iframe{display:block;width:var(--dw);height:var(--dh);border:0;border-radius:44px;background:#fff}
-.device-shadow{width:70%;height:28px;margin-top:18px;border-radius:50%;
-  background:radial-gradient(ellipse at center,rgba(14,15,20,.16),rgba(14,15,20,0) 70%);animation:shadow 8s ease-in-out infinite}
-@keyframes shadow{0%,100%{transform:scaleX(1);opacity:1}50%{transform:scaleX(.9);opacity:.7}}
-.device-cap{margin-top:14px;font-size:var(--fs-micro);color:var(--mute);text-align:center}
+.device-frame{position:relative;overflow:hidden;width:calc(var(--dw) * var(--scale));height:calc(var(--dh) * var(--scale))}
+.device-frame iframe{position:absolute;left:0;top:0;display:block;width:var(--dw);height:var(--dh);border:0;
+  background:transparent;transform:scale(var(--scale));transform-origin:0 0}
+.device-shadow{width:58%;height:30px;margin-top:6px;border-radius:50%;
+  background:radial-gradient(ellipse at center,rgba(14,15,20,.18),rgba(14,15,20,0) 70%);animation:shadow 8s ease-in-out infinite}
+@keyframes shadow{0%,100%{transform:scaleX(1);opacity:1}50%{transform:scaleX(.88);opacity:.65}}
 .demo-link{display:none;margin-top:12px;font-size:var(--fs-small);font-weight:500;color:var(--brand)}
 
 /* ================= развилка продуктов ================= */
@@ -390,13 +384,13 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line)}
   /* телефон: плотнее по вертикали, воздух сохраняется внутри блоков */
   :root{--sec:72px}
   .nav .btn{display:none}
-  .eyebrow{letter-spacing:.1em}
   .hero{padding:112px 0 64px}
   .hero-grid{gap:48px}
   .hero .eyebrow{margin-bottom:24px}
   .hero .lead{margin-top:22px}
   .cta-row{margin-top:32px}
-  .chips-row{margin-top:32px}
+  .chips-row{margin-top:36px;display:flex;flex-direction:column;gap:10px}
+  .chips-row span{padding:0;border-left:none}
   .fork{margin-top:64px;gap:14px}
   .fk{padding:26px 24px}
   .fk h2{margin:24px 0 12px}
@@ -443,7 +437,8 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line)}
   .hero h1 .w>span{transform:none}
   .step::after,.chain-fill{transform:none!important}
   .cn i{transform:none}
-  .hero .aura,.device-float,.device-shadow{animation:none}
+  .device-float,.device-shadow{animation:none}
+  .device-tilt{transform:none!important}
   *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
 }
 </style>
@@ -471,8 +466,6 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line)}
 
 <a id="top"></a>
 <section class="hero">
-  <span class="aura a1" aria-hidden="true"></span>
-  <span class="aura a2" aria-hidden="true"></span>
   <div class="wrap">
     <div class="hero-grid">
       <div class="hero-umb">
@@ -490,16 +483,17 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line)}
         </div>
       </div>
 
-      <div class="device mock" id="device" data-reveal style="--d:300ms">
-        <div class="device-float">
-          <div class="device-frame">
-            <div class="device-body">
-              <iframe src="demo.html" title="Интерактивное демо КвалисЛаб" loading="lazy"></iframe>
+      <div class="device mock" id="device" data-reveal style="--d:250ms">
+        <div class="device-stage">
+          <div class="device-tilt" id="deviceTilt">
+            <div class="device-float">
+              <div class="device-frame">
+                <iframe src="demo.html" title="Интерактивное демо КвалисЛаб" loading="lazy" allowtransparency="true"></iframe>
+              </div>
             </div>
           </div>
         </div>
         <div class="device-shadow" aria-hidden="true"></div>
-        <p class="device-cap">Демо: можно листать и нажимать</p>
         <a class="demo-link" href="demo.html" target="_blank" rel="noopener">Открыть демо приложения →</a>
       </div>
     </div>
@@ -669,7 +663,7 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line)}
         <h3>Отдел</h3>
         <div class="amt"><span data-price>70 000 ₽</span><small data-unit> / мес</small></div>
         <div class="save" data-save hidden></div>
-        <div class="desc">До 10 пользователей. Для одного отдела регистрации или качества.</div>
+        <div class="desc">До 10 пользователей.</div>
         <details class="inc" data-def="0">
           <summary>Что входит<svg class="chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></summary>
           <ul>
@@ -697,7 +691,7 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line)}
         <h3>Производство</h3>
         <div class="amt"><span data-price>90 000 ₽</span><small data-unit> / мес</small></div>
         <div class="save" data-save hidden></div>
-        <div class="desc">До 25 пользователей. Регистрация, качество и ОКК работают в одном контуре.</div>
+        <div class="desc">До 25 пользователей.</div>
         <details class="inc" data-def="1">
           <summary>Всё из тарифа «Отдел», плюс<svg class="chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></summary>
           <ul>
@@ -723,7 +717,7 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line)}
         <h3>Компания</h3>
         <div class="amt"><span data-price>140 000 ₽</span><small data-unit> / мес</small></div>
         <div class="save" data-save hidden></div>
-        <div class="desc">От 50 пользователей. Несколько отделов, единое администрирование.</div>
+        <div class="desc">От 50 пользователей.</div>
         <details class="inc" data-def="0">
           <summary>Всё из тарифа «Производство», плюс<svg class="chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></summary>
           <ul>
@@ -1016,14 +1010,35 @@ function syncIncludes(){document.querySelectorAll('.price .inc').forEach(d=>{d.o
 syncIncludes();
 wide.addEventListener('change',syncIncludes);
 
-/* ---------- прототип: масштаб под ширину колонки ---------- */
+/* ---------- прототип: масштаб и объёмный наклон ---------- */
 const device=document.getElementById('device');
+const tilt=document.getElementById('deviceTilt');
 function fitDevice(){
-  const w=device.clientWidth||396;
-  const s=Math.max(.55,Math.min(window.innerWidth>980?.84:.9,(w-8)/396));
+  const w=device.clientWidth||372;
+  const s=Math.max(.55,Math.min(window.innerWidth>980?.8:.92,(w-4)/372));
   device.style.setProperty('--scale',s.toFixed(3));
 }
 fitDevice(); window.addEventListener('resize',fitDevice,{passive:true});
+// на компьютере телефон слегка поворачивается вслед за курсором,
+// а когда курсор на нём — выравнивается, чтобы было удобно нажимать
+const canHover=matchMedia('(hover:hover) and (pointer:fine)').matches;
+if(!REDUCE&&canHover){
+  const heroEl=document.querySelector('.hero');
+  heroEl.addEventListener('pointermove',e=>{
+    if(tilt.classList.contains('flat'))return;
+    const r=device.getBoundingClientRect();
+    const dx=Math.max(-1,Math.min(1,(e.clientX-(r.left+r.width/2))/(window.innerWidth/2)));
+    const dy=Math.max(-1,Math.min(1,(e.clientY-(r.top+r.height/2))/(window.innerHeight/2)));
+    device.style.setProperty('--ry',(-16+dx*10).toFixed(2)+'deg');
+    device.style.setProperty('--rx',(7-dy*6).toFixed(2)+'deg');
+  });
+  heroEl.addEventListener('pointerleave',()=>{device.style.setProperty('--ry','-16deg');device.style.setProperty('--rx','7deg');});
+  const frame=device.querySelector('.device-frame');
+  frame.addEventListener('pointerenter',()=>tilt.classList.add('flat'));
+  frame.addEventListener('pointerleave',()=>tilt.classList.remove('flat'));
+}else{
+  device.style.setProperty('--ry','0deg'); device.style.setProperty('--rx','0deg');
+}
 
 /* ---------- анимация ---------- */
 // заголовок первого экрана проявляется по словам
@@ -1055,9 +1070,11 @@ const pending=new Set(document.querySelectorAll('[data-reveal]'));
 function sweep(){ // запасной путь: всё, что уже на экране, проявить
   if(h1)h1.classList.add('go');
   const vh=window.innerHeight;
+  // докрутили до самого низа — проявить всё, что осталось
+  if(window.scrollY+vh>=document.documentElement.scrollHeight-4){pending.forEach(reveal);pending.clear();return;}
   pending.forEach(el=>{const r=el.getBoundingClientRect(); if(r.top<vh*.92&&r.bottom>0){reveal(el);pending.delete(el);}});
 }
-if(REDUCE||!('IntersectionObserver' in window)){
+if(REDUCE||!('IntersectionObserver' in window)||/[?&]static\b/.test(location.search)){
   document.documentElement.classList.add('reveal-all');
 }else{
   const io=new IntersectionObserver(es=>es.forEach(en=>{
