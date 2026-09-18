@@ -266,8 +266,9 @@ header.scrolled{background:rgba(255,255,255,.78);-webkit-backdrop-filter:saturat
 .dg li::before{content:"";position:absolute;left:2px;top:.72em;width:6px;height:1px;background:var(--brand)}
 .dg li.etc{padding-left:0;color:var(--mute)}
 .dg li.etc::before{display:none}
-.statement{margin:clamp(72px,9vw,128px) 0;padding:clamp(40px,6vw,88px);border-radius:32px;background:var(--brand-soft)}
-.statement h3{font-size:clamp(26px,3.2vw,44px);line-height:1.15;letter-spacing:-.03em;max-width:28ch}
+.statement{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:clamp(32px,5vw,64px);align-items:center;
+  margin:clamp(72px,9vw,128px) 0;padding:clamp(40px,6vw,80px);border-radius:32px;background:var(--brand-soft)}
+.statement h3{font-size:clamp(26px,3vw,40px);line-height:1.15;letter-spacing:-.03em;max-width:26ch}
 .checks{display:grid;grid-template-columns:repeat(2,1fr);gap:16px 20px;margin-top:clamp(36px,4vw,56px)}
 .chk{display:flex;align-items:center;gap:18px;min-height:88px;padding:18px 32px 18px 22px;border-radius:999px;border:1px solid var(--line-2);background:#fff;
   font-size:clamp(17px,1.4vw,20px);font-weight:500;color:var(--ink);line-height:1.3;
@@ -277,6 +278,37 @@ header.scrolled{background:rgba(255,255,255,.78);-webkit-backdrop-filter:saturat
 .chk svg{width:20px;height:20px;stroke:var(--brand);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;
   stroke-dasharray:24;stroke-dashoffset:24;transition:stroke-dashoffset .9s var(--ease);transition-delay:calc(var(--d,0ms) + 450ms)}
 .chk.in svg,.reveal-all .chk svg{stroke-dashoffset:0}
+
+/* ================= иллюстрации: QR и разбор документа ================= */
+.head-art{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.62fr);gap:clamp(32px,5vw,80px);align-items:center;margin-bottom:clamp(48px,6vw,88px)}
+.head-art .sec-head{margin-bottom:0}
+.qr-art{justify-self:center;width:min(100%,300px)}
+.qr-art svg,.doc-art svg{display:block;width:100%;height:auto}
+.qcard{fill:#fff;stroke:var(--line)}
+.qr-art .mods{fill:#20212B}
+.qr-art .eyes{fill:var(--ink)}
+.qr-art .eyes .w{fill:#fff}
+.qr-art .beam{animation:beam 3.6s var(--ease) infinite}
+@keyframes beam{0%{transform:translateY(46px);opacity:0}12%{opacity:1}64%{transform:translateY(312px);opacity:1}76%,100%{transform:translateY(312px);opacity:0}}
+.qr-art .brackets{fill:none;stroke:var(--brand);stroke-width:4;stroke-linecap:round}
+.qr-art .qchip{opacity:0;animation:qchip 3.6s var(--ease) infinite}
+@keyframes qchip{0%,52%{opacity:0;transform:translateY(10px)}64%,92%{opacity:1;transform:none}100%{opacity:0;transform:none}}
+.qchip-bg{fill:#fff;stroke:var(--line)}
+.qtick{fill:none;stroke:var(--brand);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.doc-art{justify-self:center;width:min(100%,400px)}
+.doc-art .page{fill:#fff;stroke:var(--line-2)}
+.doc-art .ln{fill:#E7E7F0}
+.doc-art .ln.hd{fill:var(--ink)}
+.doc-art .ln.d{fill:#C9C7E4}
+.doc-art .hl>rect:first-child{fill:#F2F0FE}
+.doc-art .hl .bar{fill:var(--brand)}
+.doc-art .hl{opacity:0;transition:opacity .8s var(--ease);transition-delay:calc(var(--k) * 320ms + 300ms)}
+.doc-art .link path{fill:none;stroke:var(--brand);stroke-width:1.6;stroke-dasharray:160;stroke-dashoffset:160;transition:stroke-dashoffset 1.1s var(--ease);transition-delay:calc(var(--k) * 320ms + 500ms)}
+.doc-art .link circle{fill:var(--brand);transform-box:fill-box;transform-origin:center;transform:scale(0);transition:transform .7s var(--ease);transition-delay:calc(var(--k) * 320ms + 1s)}
+.doc-art .link text{font-size:13px;font-weight:500;fill:var(--ink);opacity:0;transition:opacity .8s var(--ease);transition-delay:calc(var(--k) * 320ms + 1.1s)}
+.doc-art.in .hl,.reveal-all .doc-art .hl,.doc-art.in .link text,.reveal-all .doc-art .link text{opacity:1}
+.doc-art.in .link path,.reveal-all .doc-art .link path{stroke-dashoffset:0}
+.doc-art.in .link circle,.reveal-all .doc-art .link circle{transform:scale(1)}
 
 /* ================= тарифы ================= */
 .switches{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:40px}
@@ -406,7 +438,11 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line)}
   .steps{grid-template-columns:repeat(2,1fr);row-gap:40px}
   .trial-grid{grid-template-columns:1fr}
   .trial-copy{position:static}
-  .sec-grid{grid-template-columns:1fr}
+  .sec-grid,.head-art,.statement{grid-template-columns:1fr}
+  .head-art{gap:48px}
+  .statement{gap:40px}
+  .qr-art{width:min(70%,280px)}
+  .doc-art{width:min(92%,400px)}
   .shield-art{width:min(80%,380px)}
 }
 @media(max-width:760px){
@@ -475,7 +511,11 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line)}
   .js [data-reveal]{opacity:1;transform:none}
   .hero h1 .w>span{transform:none}
   .step::after{transform:none!important}
-  .device-float,.device-shadow,.sheet-float,.sheet-card::after,.pulse::before,.st,.st .dot::after,.shield-art *{animation:none}
+  .device-float,.device-shadow,.sheet-float,.sheet-card::after,.pulse::before,.st,.st .dot::after,.shield-art *,.qr-art *{animation:none}
+  .qr-art .qchip{opacity:1}
+  .doc-art .hl,.doc-art .link text{opacity:1}
+  .doc-art .link path{stroke-dashoffset:0}
+  .doc-art .link circle{transform:none}
   .device-tilt,.sheet-tilt{transform:none!important;opacity:1!important}
   .sh-rows li{opacity:1;transform:none}.sh-bar span{transform:none}
   .shield-art .outline,.shield-art .tick,.chk svg{stroke-dashoffset:0}
@@ -646,9 +686,31 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line)}
 
 <section class="soft" id="how">
   <div class="wrap">
-    <div class="sec-head">
-      <div class="eyebrow" data-reveal>КвалисЛаб · Как это работает</div>
-      <h2 data-reveal style="--d:80ms" class="wide">Всё строится вокруг сканирования QR&#8209;кода</h2>
+    <div class="head-art">
+      <div class="sec-head">
+        <div class="eyebrow" data-reveal>КвалисЛаб · Как это работает</div>
+        <h2 data-reveal style="--d:80ms" class="wide">Всё строится вокруг сканирования QR&#8209;кода</h2>
+      </div>
+      <div class="qr-art" data-reveal style="--d:120ms" aria-hidden="true">
+        <svg viewBox="0 0 340 384">
+          <defs>
+            <linearGradient id="beamg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5B4CDB" stop-opacity="0"/><stop offset="1" stop-color="#5B4CDB" stop-opacity=".2"/></linearGradient>
+            <clipPath id="qrclip"><rect x="30" y="30" width="280" height="280" rx="34"/></clipPath>
+          </defs>
+          <rect class="qcard" x="30" y="30" width="280" height="280" rx="34"/>
+          <g class="mods"><rect x="130" y="50" width="14" height="14" rx="3"/><rect x="150" y="50" width="14" height="14" rx="3"/><rect x="190" y="50" width="14" height="14" rx="3"/><rect x="150" y="70" width="14" height="14" rx="3"/><rect x="170" y="70" width="14" height="14" rx="3"/><rect x="130" y="90" width="14" height="14" rx="3"/><rect x="170" y="90" width="14" height="14" rx="3"/><rect x="190" y="90" width="14" height="14" rx="3"/><rect x="170" y="110" width="14" height="14" rx="3"/><rect x="190" y="110" width="14" height="14" rx="3"/><rect x="110" y="130" width="14" height="14" rx="3"/><rect x="150" y="130" width="14" height="14" rx="3"/><rect x="190" y="130" width="14" height="14" rx="3"/><rect x="210" y="130" width="14" height="14" rx="3"/><rect x="230" y="130" width="14" height="14" rx="3"/><rect x="250" y="130" width="14" height="14" rx="3"/><rect x="50" y="150" width="14" height="14" rx="3"/><rect x="110" y="150" width="14" height="14" rx="3"/><rect x="150" y="150" width="14" height="14" rx="3"/><rect x="170" y="150" width="14" height="14" rx="3"/><rect x="190" y="150" width="14" height="14" rx="3"/><rect x="250" y="150" width="14" height="14" rx="3"/><rect x="70" y="170" width="14" height="14" rx="3"/><rect x="130" y="170" width="14" height="14" rx="3"/><rect x="230" y="170" width="14" height="14" rx="3"/><rect x="270" y="170" width="14" height="14" rx="3"/><rect x="50" y="190" width="14" height="14" rx="3"/><rect x="90" y="190" width="14" height="14" rx="3"/><rect x="130" y="190" width="14" height="14" rx="3"/><rect x="230" y="190" width="14" height="14" rx="3"/><rect x="250" y="210" width="14" height="14" rx="3"/><rect x="190" y="230" width="14" height="14" rx="3"/><rect x="210" y="230" width="14" height="14" rx="3"/><rect x="250" y="230" width="14" height="14" rx="3"/><rect x="130" y="250" width="14" height="14" rx="3"/><rect x="150" y="250" width="14" height="14" rx="3"/><rect x="170" y="250" width="14" height="14" rx="3"/><rect x="210" y="250" width="14" height="14" rx="3"/><rect x="230" y="250" width="14" height="14" rx="3"/><rect x="250" y="250" width="14" height="14" rx="3"/><rect x="130" y="270" width="14" height="14" rx="3"/><rect x="250" y="270" width="14" height="14" rx="3"/><rect x="270" y="270" width="14" height="14" rx="3"/></g>
+          <g class="eyes"><rect x="50" y="50" width="60" height="60" rx="16"/><rect class="w" x="60" y="60" width="40" height="40" rx="11"/><rect x="70" y="70" width="20" height="20" rx="6"/><rect x="230" y="50" width="60" height="60" rx="16"/><rect class="w" x="240" y="60" width="40" height="40" rx="11"/><rect x="250" y="70" width="20" height="20" rx="6"/><rect x="50" y="230" width="60" height="60" rx="16"/><rect class="w" x="60" y="240" width="40" height="40" rx="11"/><rect x="70" y="250" width="20" height="20" rx="6"/></g>
+          <g clip-path="url(#qrclip)"><g class="beam"><rect x="30" y="-140" width="280" height="140" fill="url(#beamg)"/><rect x="30" y="-2" width="280" height="2.5" rx="1.25" fill="#5B4CDB"/></g></g>
+          <g class="brackets"><path d="M14 76V44a30 30 0 0 1 30-30h32"/><path d="M264 14h32a30 30 0 0 1 30 30v32"/><path d="M326 264v32a30 30 0 0 1-30 30h-32"/><path d="M76 326H44a30 30 0 0 1-30-30v-32"/></g>
+          <g class="qchip">
+            <rect class="qchip-bg" x="46" y="322" width="248" height="54" rx="18"/>
+            <circle cx="78" cy="349" r="15" fill="#F2F0FE"/>
+            <path class="qtick" d="M71 349l5 5 10-10"/>
+            <rect x="106" y="337" width="122" height="9" rx="4.5" fill="#E4E4EE"/>
+            <rect x="106" y="353" width="78" height="9" rx="4.5" fill="#EFEFF5"/>
+          </g>
+        </svg>
+      </div>
     </div>
     <div class="roleflow">
       <div class="rolerow">
@@ -727,6 +789,21 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line)}
 
     <div class="statement" data-reveal>
       <h3>ИИ понимает структуру документов исходя из регуляторных требований и внутренних шаблонов компании.</h3>
+      <div class="doc-art" data-reveal style="--d:120ms" aria-hidden="true">
+        <svg viewBox="0 0 400 300">
+          <rect class="page" x="10" y="12" width="206" height="276" rx="18"/>
+          <rect class="ln hd" x="32" y="38" width="118" height="11" rx="5.5"/>
+          <rect class="ln" x="32" y="60" width="152" height="8" rx="4"/>
+          <g class="hl" style="--k:0"><rect x="24" y="86" width="178" height="38" rx="10"/><rect class="bar" x="24" y="86" width="4" height="38" rx="2"/><rect class="ln d" x="40" y="98" width="96" height="8" rx="4"/><rect class="ln" x="40" y="112" width="140" height="7" rx="3.5"/></g>
+          <g class="hl" style="--k:1"><rect x="24" y="136" width="178" height="38" rx="10"/><rect class="bar" x="24" y="136" width="4" height="38" rx="2"/><rect class="ln d" x="40" y="148" width="74" height="8" rx="4"/><rect class="ln" x="40" y="162" width="126" height="7" rx="3.5"/></g>
+          <g class="hl" style="--k:2"><rect x="24" y="186" width="178" height="38" rx="10"/><rect class="bar" x="24" y="186" width="4" height="38" rx="2"/><rect class="ln d" x="40" y="198" width="88" height="8" rx="4"/><rect class="ln" x="40" y="212" width="110" height="7" rx="3.5"/></g>
+          <rect class="ln" x="32" y="244" width="120" height="7" rx="3.5"/>
+          <rect class="ln" x="32" y="260" width="84" height="7" rx="3.5"/>
+          <g class="link" style="--k:0"><path d="M206 105H252c10 0 14-6 14-14V64c0-8 5-12 13-12h9"/><circle cx="296" cy="52" r="6"/><text x="312" y="57">Показатель</text></g>
+          <g class="link" style="--k:1"><path d="M206 155h74c10 0 16-2 16-12v-4"/><circle cx="296" cy="128" r="6"/><text x="312" y="133">Норма</text></g>
+          <g class="link" style="--k:2"><path d="M206 205h46c10 0 14 6 14 14v22c0 8 5 12 13 12h9"/><circle cx="296" cy="253" r="6"/><text x="312" y="258">Метод</text></g>
+        </svg>
+      </div>
     </div>
 
     <h3 class="sec-title" data-reveal>Проверка</h3>
