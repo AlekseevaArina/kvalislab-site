@@ -702,7 +702,7 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line)}
           <li>Аналитических листов</li>
           <li>Карт стабильности</li>
           <li>Досье на субстанцию</li>
-          <li class="etc">и других разделов</li>
+          <li class="etc">и других</li>
         </ul>
       </div>
       <div class="dg">
@@ -735,7 +735,7 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line)}
       <div class="chk"><i><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></i>Валидаций</div>
       <div class="chk"><i><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></i>Отчётов ТСКР</div>
       <div class="chk"><i><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></i>Досье на субстанцию</div>
-      <div class="chk"><i><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></i>Оценки поставщика сырья</div>
+      <div class="chk"><i><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></i>Оценка документации от поставщиков</div>
       <div class="chk"><i><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></i>Маркировки</div>
     </div>
   </div>
@@ -762,20 +762,20 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line)}
     <div class="prices" data-stagger>
       <div class="price" data-plan="dept">
         <h3>До 10 пользователей</h3>
-        <div class="amt"><span data-price>150 000 ₽</span><small data-unit> / мес</small></div>
+        <div class="amt"><span data-price>120 000 ₽</span><small data-unit> / мес</small></div>
         <div class="save" data-save hidden></div>
         <div class="lab-add" hidden>Включая КвалисЛаб</div>
       </div>
       <div class="price reco" data-plan="prod">
         <span class="ribbon">ВЫБИРАЮТ ЧАЩЕ ВСЕГО</span>
         <h3>До 25 пользователей</h3>
-        <div class="amt"><span data-price>190 000 ₽</span><small data-unit> / мес</small></div>
+        <div class="amt"><span data-price>160 000 ₽</span><small data-unit> / мес</small></div>
         <div class="save" data-save hidden></div>
         <div class="lab-add" hidden>Включая КвалисЛаб</div>
       </div>
       <div class="price" data-plan="corp">
         <h3>От 50 пользователей</h3>
-        <div class="amt"><span data-price>250 000 ₽</span><small data-unit> / мес</small></div>
+        <div class="amt"><span data-price>220 000 ₽</span><small data-unit> / мес</small></div>
         <div class="save" data-save hidden></div>
         <div class="lab-add" hidden>Включая КвалисЛаб</div>
         <div class="spacer"></div>
@@ -980,9 +980,9 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closePolicy();});
 /* ---------- тарифы: состав и период ---------- */
 // m — в месяц, mb — в месяц с КвалисЛаб; год = 10 месяцев, два в подарок
 const PLANS={
-  dept:{m:150000, mb:185000},
-  prod:{m:190000, mb:225000},
-  corp:{m:250000, mb:285000}
+  dept:{m:120000, mb:155000},
+  prod:{m:160000, mb:195000},
+  corp:{m:220000, mb:255000}
 };
 const NB='\u00A0';
 const money=n=>n.toLocaleString('ru-RU').replace(/\s/g,NB)+NB+'₽';
