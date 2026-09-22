@@ -4,12 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Квалис — автоматизация работы фармацевтических компаний</title>
-<meta name="description" content="Два сервиса для фармпредприятий: КвалисЛаб — учёт и списание материально-технического обеспечения лаборатории со смартфона, КвалисДок — автоматическое формирование регуляторной документации. Российский сервер, 152-ФЗ.">
+<meta name="description" content="КвалисЛаб — учёт реактивов и стандартных образцов по QR-коду со смартфона. КвалисДок — сборка и проверка регуляторной документации фармкомпании. Данные хранятся в России, требования 152-ФЗ соблюдены.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:site_name" content="Квалис">
 <meta property="og:title" content="Квалис — автоматизация работы фармацевтических компаний">
 <meta property="og:description" content="КвалисЛаб — учёт, списание и контроль реактивов и стандартных образцов в лабораториях. КвалисДок — регистрационное досье, проверка и формирование документации. Российский сервер, требования ЕАЭС и ГФ РФ.">
+<meta property="og:url" content="https://appkvalislab.ru/">
+<meta property="og:image" content="https://appkvalislab.ru/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://appkvalislab.ru/">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://alekseevaarina-kvalislab-form-13ad.twc1.net; frame-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" type="image/svg+xml" href="/icon.svg">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -390,6 +398,9 @@ header.scrolled{background:rgba(255,255,255,.78);-webkit-backdrop-filter:saturat
 .consent a{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
 .form-btn{width:100%;min-height:58px;font-size:17px}
 .form-btn[disabled]{opacity:.55;cursor:progress}
+.field input.invalid,.field select.invalid,.field textarea.invalid{border-color:var(--err);box-shadow:0 0 0 4px var(--err-bg)}
+.consent.invalid{color:var(--err)}
+.consent.invalid input{outline:2px solid var(--err);outline-offset:2px}
 .form-err{margin-top:16px;padding:14px 18px;border-radius:14px;background:var(--err-bg);color:var(--err);font-size:var(--fs-small);line-height:1.55}
 .form-err a{color:var(--err);font-weight:600;text-decoration:underline}
 .form-fine{margin-top:16px;font-size:var(--fs-micro);color:var(--mute);text-align:center}
@@ -402,23 +413,9 @@ header.scrolled{background:rgba(255,255,255,.78);-webkit-backdrop-filter:saturat
 footer{padding:48px 0 56px;border-top:1px solid var(--line)}
 .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px 40px;font-size:var(--fs-micro);color:var(--mute)}
 .foot strong{letter-spacing:.14em}
+.foot-docs{display:flex;flex-wrap:wrap;gap:6px 16px}
+.foot-note{flex-basis:100%;color:var(--mute)}
 .foot a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--line-2);text-underline-offset:3px}
-
-/* ================= политика ================= */
-.modal{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;
-  background:rgba(14,15,20,.32);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
-  opacity:0;visibility:hidden;transition:opacity .45s var(--ease),visibility .45s}
-.modal.show{opacity:1;visibility:visible}
-.modal-card{position:relative;max-width:720px;max-height:84vh;overflow:auto;padding:clamp(28px,4vw,52px);border-radius:28px;background:#fff;
-  box-shadow:0 40px 80px -30px rgba(14,15,20,.35);transform:translateY(16px) scale(.98);transition:transform .6s var(--ease)}
-.modal.show .modal-card{transform:none}
-.modal-card h3{font-size:clamp(22px,2.2vw,28px);letter-spacing:-.02em;padding-right:44px;margin-bottom:18px}
-.modal-card h4{margin:24px 0 6px;font-size:var(--fs-body);font-weight:500;color:var(--ink)}
-.modal-card p{font-size:var(--fs-small);line-height:1.7;color:var(--text)}
-.modal-close{position:absolute;right:20px;top:20px;width:44px;height:44px;border-radius:50%;border:none;background:var(--soft);
-  font-size:22px;line-height:1;color:var(--ink);cursor:pointer;transition:background .4s var(--ease)}
-.modal-close:hover{background:var(--line)}
-.modal-meta{margin-top:28px;color:var(--mute)!important;font-size:var(--fs-micro)!important}
 
 /* ================= плавающая кнопка ================= */
 .floatcta{position:fixed;right:24px;bottom:24px;z-index:90;display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 24px;
@@ -603,7 +600,7 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line)}
       <a class="fk" href="#lab">
         <div class="fk-top"><span class="cap">Лаборатория</span><span class="st"><span class="dot"></span>Работает</span></div>
         <h2>КвалисЛаб</h2>
-        <p class="fk-lead">Система автоматического контроля реактивов, стандартных образцов и другого МТО лаборатории.</p>
+        <p class="fk-lead">Система автоматического контроля реактивов, стандартных образцов и другого материально-технического обеспечения (МТО) лаборатории.</p>
         <div class="roles">
           <div class="role">
             <div class="role-h">Сотрудник</div>
@@ -792,7 +789,7 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line)}
     </div>
 
     <div class="statement" data-reveal>
-      <h3>ИИ понимает структуру документов исходя из регуляторных требований и внутренних шаблонов компании.</h3>
+      <h3>ИИ понимает структуру документов, исходя из регуляторных требований и внутренних шаблонов компании.</h3>
       <div class="doc-art" data-reveal style="--d:120ms" aria-hidden="true">
         <svg viewBox="0 0 400 300">
           <rect class="page" x="10" y="12" width="206" height="276" rx="18"/>
@@ -848,7 +845,7 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line)}
         <div class="lab-add" hidden>Включая КвалисЛаб</div>
       </div>
       <div class="price reco" data-plan="prod">
-        <span class="ribbon">ВЫБИРАЮТ ЧАЩЕ ВСЕГО</span>
+        <span class="ribbon">РЕКОМЕНДУЕМ</span>
         <h3>До 25 пользователей</h3>
         <div class="amt"><span data-price>135 000 ₽</span><small data-unit> / мес</small></div>
         <div class="save" data-save hidden></div>
@@ -951,19 +948,18 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line)}
         </div>
         <div class="formrow">
           <div class="field"><label for="f-role">Должность</label><input id="f-role" name="role" placeholder="Например, начальник ОКК"></div>
-          <div class="field"><label for="f-contact">Email или телефон *</label><input id="f-contact" name="contact" required placeholder="Для ответа"></div>
+          <div class="field"><label for="f-contact">Эл. почта или телефон *</label><input id="f-contact" name="contact" required placeholder="Для ответа"></div>
         </div>
         <div class="field"><label for="f-message">Комментарий — что хотите увидеть на демо</label><textarea id="f-message" name="message" placeholder="Сколько лабораторий, какие задачи — по желанию"></textarea></div>
         <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
         <input type="text" name="url" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
-        <label class="consent"><input type="checkbox" id="consent"><span>Я даю согласие на обработку персональных данных в соответствии с <a href="#" id="openPolicy">Политикой конфиденциальности</a>.</span></label>
+        <label class="consent" id="consentBox"><input type="checkbox" id="consent"><span>Я даю <a href="/consent.html" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и ознакомлен(а) с <a href="/policy.html" target="_blank" rel="noopener">Политикой конфиденциальности</a>.</span></label>
         <button type="submit" class="btn btn-primary form-btn" id="formSubmit">Отправить заявку</button>
         <p class="form-err" id="formErr" role="alert" hidden></p>
-        <div class="form-fine">Нажимая кнопку, вы соглашаетесь на обработку контактных данных для ответа на заявку.</div>
       </form>
       <div class="form-ok" id="formOk" role="status" aria-live="polite" tabindex="-1">
         <div class="big">Спасибо! Заявка отправлена</div>
-        <div class="okt">Мы свяжемся с вами в течение рабочего дня. Если письмо не открылось автоматически — напишите нам на <a href="#" id="okEmail"></a>.</div>
+        <div class="okt">Ответим в течение рабочего дня. Если удобнее написать самим — наша почта: <a href="#" id="okEmail"></a>.</div>
       </div>
     </div>
   </div>
@@ -972,39 +968,19 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line)}
 <footer>
   <div class="wrap foot">
     <div><strong>КВАЛИС</strong> — цифровой контур качества фармпроизводства · КвалисЛаб · КвалисДок</div>
-    <div>ИП Алексеева А. П. · ОГРНИП 326774600323168 · <a href="#" id="footEmail"></a> · <a href="#" id="footPolicy">Политика конфиденциальности</a></div>
+    <div>ИП Алексеева Арина Павловна · ИНН 772999045907 · ОГРНИП 326774600323168 · <a href="#" id="footEmail"></a></div>
+    <div class="foot-docs"><a href="/policy.html">Политика конфиденциальности</a> · <a href="/consent.html">Согласие на обработку персональных данных</a></div>
+    <div class="foot-note">Информация на сайте носит справочный характер и не является публичной офертой (ст. 437 ГК РФ).</div>
   </div>
 </footer>
-
-<div class="modal" id="policyModal" aria-hidden="true">
-  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="policyTitle">
-    <button class="modal-close" id="policyClose" aria-label="Закрыть">×</button>
-    <h3 id="policyTitle">Политика в отношении обработки персональных данных</h3>
-    <p><strong>Оператор:</strong> Индивидуальный предприниматель Алексеева Арина Павловна, ОГРНИП 326774600323168, ИНН 772999045907, эл. почта: kvalis.app@yandex.com.</p>
-    <h4>1. Общие положения</h4>
-    <p>Настоящая Политика определяет порядок обработки и защиты персональных данных пользователей сайта appkvalislab.ru (далее — Сайт) и разработана в соответствии с Федеральным законом от 27.07.2006 № 152-ФЗ «О персональных данных».</p>
-    <h4>2. Обрабатываемые данные</h4>
-    <p>Оператор обрабатывает данные, которые пользователь добровольно предоставляет через форму заявки на Сайте: имя, наименование компании, должность, адрес электронной почты и/или номер телефона, а также текст комментария.</p>
-    <h4>3. Цели обработки</h4>
-    <p>Данные обрабатываются в целях рассмотрения и обработки заявки пользователя, связи с ним, направления ответа и коммерческого предложения по продуктам «КвалисЛаб» и «КвалисДок».</p>
-    <h4>4. Правовое основание</h4>
-    <p>Обработка осуществляется на основании согласия субъекта персональных данных, выражаемого путём проставления отметки в форме на Сайте.</p>
-    <h4>5. Порядок и условия обработки</h4>
-    <p>Обработка включает сбор, запись, систематизацию, хранение, использование и удаление данных. Оператор не передаёт персональные данные третьим лицам, за исключением случаев, предусмотренных законодательством РФ. Данные хранятся в течение срока, необходимого для достижения целей обработки, или до отзыва согласия.</p>
-    <h4>6. Права пользователя</h4>
-    <p>Пользователь вправе получить информацию об обработке своих данных, потребовать их уточнения, блокирования или удаления, а также отозвать согласие, направив обращение на эл. почту оператора: kvalis.app@yandex.com.</p>
-    <h4>7. Файлы cookie</h4>
-    <p>Сайт не использует файлы cookie для отслеживания и не ведёт веб-аналитику действий пользователей.</p>
-    <p class="modal-meta">Оператор вправе вносить изменения в настоящую Политику; актуальная редакция размещается на Сайте.</p>
-  </div>
-</div>
 
 <a class="floatcta" id="floatcta" href="#trial">Запросить пробный период <span aria-hidden="true">→</span></a>
 
 <script>
 const CONFIG = {
   formEndpoint: 'https://alekseevaarina-kvalislab-form-13ad.twc1.net/',
-  contactEmail: 'kvalis.app@yandex.com'
+  contactEmail: 'kvalis.app@yandex.com',
+  consentDoc: 'Согласие на обработку персональных данных, ред. 22.09.2026'
 };
 const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
 for(const id of ['okEmail','footEmail']){const el=document.getElementById(id);el.textContent=CONFIG.contactEmail;el.href='mailto:'+CONFIG.contactEmail;}
@@ -1018,13 +994,34 @@ function showError(msg){
   errBox.innerHTML=msg+' Напишите нам на <a href="mailto:'+CONFIG.contactEmail+'">'+CONFIG.contactEmail+'</a> — ответим так же быстро.';
   errBox.hidden=false;
 }
+// подсказки по незаполненным полям — в самой форме, без системных окон
+function showNotice(msg){errBox.textContent=msg;errBox.hidden=false;}
+function markInvalid(el){
+  el.classList.add('invalid');
+  el.addEventListener('input',()=>el.classList.remove('invalid'),{once:true});
+  el.addEventListener('change',()=>el.classList.remove('invalid'),{once:true});
+}
 form.addEventListener('submit',async e=>{
   e.preventDefault();
   if(sending)return;
   const d=Object.fromEntries(new FormData(form).entries());
-  if(!d.product||!d.company||!d.name||!d.contact){alert('Заполните, пожалуйста, поля со звёздочкой.');return;}
-  if(!document.getElementById('consent').checked){alert('Пожалуйста, подтвердите согласие на обработку персональных данных.');return;}
-  sending=true; errBox.hidden=true;
+  errBox.hidden=true;
+  let firstBad=null;
+  for(const [key,id] of [['product','f-product'],['company','f-company'],['name','f-name'],['contact','f-contact']]){
+    const el=document.getElementById(id);
+    if(!d[key]||!d[key].trim()){markInvalid(el); if(!firstBad)firstBad=el;}
+  }
+  if(firstBad){showNotice('Заполните поля со звёздочкой — без них мы не сможем ответить.');firstBad.focus();return;}
+  const consentEl=document.getElementById('consent'), consentBox=document.getElementById('consentBox');
+  if(!consentEl.checked){
+    consentBox.classList.add('invalid');
+    consentEl.addEventListener('change',()=>consentBox.classList.remove('invalid'),{once:true});
+    showNotice('Отметьте согласие на обработку персональных данных — без него мы не вправе принять заявку.');
+    consentEl.focus(); return;
+  }
+  // фиксируем факт согласия: что подтверждено и когда
+  d.consent=true; d.consent_at=new Date().toISOString(); d.consent_doc=CONFIG.consentDoc;
+  sending=true;
   submitBtn.disabled=true; const label=submitBtn.textContent; submitBtn.textContent='Отправляем…';
   try{
     const r=await fetch(CONFIG.formEndpoint,{method:'POST',
@@ -1045,17 +1042,6 @@ form.addEventListener('submit',async e=>{
     sending=false; submitBtn.disabled=false; submitBtn.textContent=label;
   }
 });
-
-/* ---------- политика: окно, фокус внутрь и обратно ---------- */
-const pModal=document.getElementById('policyModal');
-const pClose=document.getElementById('policyClose');
-let pOpener=null;
-function openPolicy(e){if(e)e.preventDefault();pOpener=document.activeElement;pModal.classList.add('show');pModal.setAttribute('aria-hidden','false');setTimeout(()=>pClose.focus(),50);}
-function closePolicy(){if(!pModal.classList.contains('show'))return;pModal.classList.remove('show');pModal.setAttribute('aria-hidden','true');if(pOpener&&pOpener.focus)pOpener.focus();}
-['openPolicy','footPolicy'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('click',openPolicy);});
-pClose.addEventListener('click',closePolicy);
-pModal.addEventListener('click',e=>{if(e.target===pModal)closePolicy();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closePolicy();});
 
 /* ---------- тарифы: состав и период ---------- */
 // m — в месяц, mb — в месяц с КвалисЛаб; год = 10 месяцев, два в подарок
