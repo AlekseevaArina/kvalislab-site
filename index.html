@@ -322,40 +322,6 @@ header.scrolled{background:rgba(255,255,255,.78);-webkit-backdrop-filter:saturat
 .doc-art.in .link path,.reveal-all .doc-art .link path{stroke-dashoffset:0}
 .doc-art.in .link circle,.reveal-all .doc-art .link circle{transform:scale(1)}
 
-/* ================= тарифы ================= */
-.switches{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:40px}
-.sw{display:inline-flex;padding:5px;border-radius:999px;background:var(--soft)}
-.sw button{border:none;background:transparent;color:var(--mute);font-size:var(--fs-small);font-weight:500;
-  padding:10px 20px;border-radius:999px;cursor:pointer;min-height:44px;transition:background .45s var(--ease),color .45s var(--ease),box-shadow .45s var(--ease)}
-.sw button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(14,15,20,.06),0 6px 16px -8px rgba(14,15,20,.2)}
-.gift{display:inline-block;margin-left:4px;padding:2px 10px;border-radius:999px;background:var(--brand);color:#fff;font-weight:500}
-.prices{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
-.price{position:relative;display:flex;flex-direction:column;padding:clamp(28px,2.8vw,44px);border-radius:var(--r-card);
-  background:#fff;border:1px solid var(--line);transition:transform .7s var(--ease),box-shadow .7s var(--ease)}
-.price:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
-.price.reco{border:1.5px solid var(--brand);box-shadow:var(--shadow)}
-.ribbon{position:absolute;top:-14px;left:32px;padding:5px 14px;border-radius:999px;background:var(--brand);color:#fff;
-  font-size:var(--fs-micro);font-weight:500;letter-spacing:.1em}
-.price h3,.price .h3{font-size:22px}
-.amt{margin-top:24px;font-size:clamp(34px,3.2vw,44px);font-weight:500;letter-spacing:-.035em;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.1}
-.amt small{font-size:var(--fs-small);font-weight:400;letter-spacing:0;color:var(--mute)}
-.save{margin-top:8px;font-size:var(--fs-small);font-weight:500;color:var(--brand)}
-.lab-add{margin-top:20px;font-size:var(--fs-small);font-weight:500;color:var(--brand-deep)}
-.price .spacer{flex:1 0 32px}
-.desc{margin:18px 0 26px;padding-bottom:26px;border-bottom:1px solid var(--line);font-size:var(--fs-small);color:var(--mute);line-height:1.6}
-.price ul{list-style:none;display:flex;flex-direction:column;gap:12px}
-.price li{position:relative;padding-left:28px;font-size:var(--fs-small);line-height:1.55;color:var(--text)}
-.price li svg{position:absolute;left:0;top:4px;width:16px;height:16px;stroke:var(--brand);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.price li.hl{font-weight:500;color:var(--ink)}
-.fineprint{margin-top:24px;font-size:var(--fs-small);color:var(--mute)}
-.enterprise{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 32px;margin-top:32px;
-  padding:28px 36px;border-radius:var(--r-card);background:var(--soft);font-size:var(--fs-small)}
-.enterprise a{font-weight:500;color:var(--ink);white-space:nowrap}
-.labonly{margin-top:clamp(88px,11vw,152px)}
-.labonly>h3{font-size:clamp(26px,2.6vw,36px);letter-spacing:-.025em}
-.labonly .sub{margin:10px 0 40px;color:var(--mute)}
-.labonly .prices{grid-template-columns:repeat(2,1fr);max-width:860px;align-items:start}
-
 /* ================= безопасность ================= */
 .sec-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,6vw,104px);align-items:center}
 .sec-grid .sec-head{margin-bottom:0}
@@ -426,9 +392,6 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line)}
 
 /* ================= адаптив ================= */
 @media(max-width:1100px){
-  .prices{grid-template-columns:1fr;max-width:640px}
-  .price.reco{order:-1}
-  .labonly .prices{grid-template-columns:1fr;max-width:640px}
   .ob,.docgroups{grid-template-columns:repeat(2,1fr)}
   .rolerow{grid-template-columns:1fr;gap:28px}
 }
@@ -450,7 +413,6 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line)}
   .cmp,.ob,.checks{grid-template-columns:1fr}
   .ob{gap:0}
   .oi{padding:24px 0}
-  .enterprise{padding:24px}
   .demo-link{display:inline-block}
   /* на узком экране лист КвалисДок уходит под телефон */
   .device-stage{padding-left:0}
@@ -465,9 +427,6 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line)}
   .docgroups,.steps{grid-template-columns:1fr}
   .formrow{grid-template-columns:1fr;gap:0}
   .cta-row .btn{width:100%}
-  .sw{width:100%}
-  .sw button{flex:1;padding:10px 8px;font-size:var(--fs-micro)}
-  .gift{display:block;margin:2px 0 0;padding:1px 8px}
   .floatcta{right:16px;bottom:16px}
   /* телефон: плотнее по вертикали, воздух сохраняется внутри блоков */
   :root{--sec:72px}
@@ -499,11 +458,6 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line)}
   .statement{margin:56px 0;padding:28px 24px;border-radius:22px}
   .chk{min-height:72px;padding:14px 22px 14px 14px;gap:14px}
   .chk i{flex-basis:38px;height:38px}
-  .switches{margin-bottom:28px}
-  .price{padding:26px 22px}
-  .desc{margin:14px 0 20px;padding-bottom:20px}
-  .labonly{margin-top:72px}
-  .labonly .sub{margin-bottom:28px}
   .formcard{padding:26px 20px;border-radius:24px}
   .trial-copy p{margin-top:18px}
 }
@@ -538,7 +492,6 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line)}
     <nav class="nav-links" aria-label="Разделы">
       <a href="#lab">КвалисЛаб</a>
       <a href="#doc">КвалисДок</a>
-      <a href="#pricing">Тарифы</a>
       <a href="#security">Безопасность ваших данных</a>
     </nav>
     <a class="btn btn-primary pulse" href="#trial">Запросить пробный период</a>
@@ -819,78 +772,6 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line)}
   </div>
 </section>
 
-<section id="pricing">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2 data-reveal>Тарифы и условия использования</h2>
-      <p data-reveal style="--d:120ms">Начать можно бесплатно: 30 дней.</p>
-    </div>
-
-    <div class="switches" data-reveal>
-      <div class="sw" data-sw="mix" role="group" aria-label="Состав подписки">
-        <button type="button" data-v="doc" aria-pressed="true">Только КвалисДок</button>
-        <button type="button" data-v="both" aria-pressed="false">Квалис: оба продукта</button>
-      </div>
-      <div class="sw" data-sw="term" role="group" aria-label="Период оплаты">
-        <button type="button" data-v="month" aria-pressed="true">Помесячно</button>
-        <button type="button" data-v="year" aria-pressed="false">На год <span class="gift">два месяца в подарок</span></button>
-      </div>
-    </div>
-
-    <div class="prices" data-stagger>
-      <div class="price" data-plan="dept">
-        <h3>До 10 пользователей</h3>
-        <div class="amt"><span data-price>95 000 ₽</span><small data-unit> / мес</small></div>
-        <div class="save" data-save hidden></div>
-        <div class="lab-add" hidden>Включая КвалисЛаб</div>
-      </div>
-      <div class="price reco" data-plan="prod">
-        <span class="ribbon">РЕКОМЕНДУЕМ</span>
-        <h3>До 25 пользователей</h3>
-        <div class="amt"><span data-price>135 000 ₽</span><small data-unit> / мес</small></div>
-        <div class="save" data-save hidden></div>
-        <div class="lab-add" hidden>Включая КвалисЛаб</div>
-      </div>
-      <div class="price" data-plan="corp">
-        <h3>От 50 пользователей</h3>
-        <div class="amt"><span data-price>195 000 ₽</span><small data-unit> / мес</small></div>
-        <div class="save" data-save hidden></div>
-        <div class="lab-add" hidden>Включая КвалисЛаб</div>
-        <div class="spacer"></div>
-        <a class="btn btn-ghost" href="#trial">Обсудить внедрение</a>
-      </div>
-    </div>
-    <p class="fineprint" data-reveal>Цены указаны без НДС (УСН). Минимальный период оплаты — 6 месяцев.</p>
-
-    <div class="enterprise" data-reveal>
-      <div><b>Свыше 200 пользователей или несколько производственных площадок?</b> Считаем индивидуально.</div>
-      <a href="#trial">Обсудить →</a>
-    </div>
-
-    <div class="labonly">
-      <h3 data-reveal>КвалисЛаб отдельно</h3>
-      <div class="sub" data-reveal style="--d:80ms">Если нужен только учёт лаборатории</div>
-      <div class="prices" data-stagger>
-        <div class="price sm">
-          <h4 class="h3">Бесплатный период</h4>
-          <div class="amt">0 ₽<small> / 30 дней</small></div>
-        </div>
-        <div class="price sm">
-          <h4 class="h3">1 лаборатория</h4>
-          <div class="amt">50 000 ₽<small> / мес</small></div>
-          <div class="desc">За одну лабораторию, без дополнительной платы за каждого сотрудника</div>
-          <ul>
-          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Все функции и обновления</li>
-          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Минимальный период оплаты — 6 месяцев (300 000 ₽)</li>
-          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Год — 500 000 ₽, 2 месяца в подарок</li>
-          <li class="hl"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>От 3 лабораторий — скидка 10%</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section class="soft" id="security">
   <div class="wrap sec-grid">
     <div class="sec-head">
@@ -1042,39 +923,6 @@ form.addEventListener('submit',async e=>{
     sending=false; submitBtn.disabled=false; submitBtn.textContent=label;
   }
 });
-
-/* ---------- тарифы: состав и период ---------- */
-// m — в месяц, mb — в месяц с КвалисЛаб; год = 10 месяцев, два в подарок
-const PLANS={
-  dept:{m:95000,  mb:130000},
-  prod:{m:135000, mb:170000},
-  corp:{m:195000, mb:230000}
-};
-const NB='\u00A0';
-const money=n=>n.toLocaleString('ru-RU').replace(/\s/g,NB)+NB+'₽';
-let bundle=false, annual=false;
-function renderPricing(){
-  for(const key in PLANS){
-    const v=PLANS[key], card=document.querySelector('.price[data-plan="'+key+'"]');
-    if(!card)continue;
-    const month=bundle?v.mb:v.m;
-    card.querySelector('[data-price]').textContent=money(annual?month*10:month);
-    card.querySelector('[data-unit]').textContent=NB+'/ '+(annual?'год':'мес');
-    const sv=card.querySelector('[data-save]');
-    sv.hidden=!annual;
-    if(annual)sv.textContent='экономия '+money(month*2);
-    card.querySelector('.lab-add').hidden=!bundle;
-  }
-}
-document.querySelectorAll('.sw').forEach(sw=>{
-  sw.addEventListener('click',e=>{
-    const b=e.target.closest('button'); if(!b||!sw.contains(b))return;
-    sw.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));
-    if(sw.dataset.sw==='mix')bundle=(b.dataset.v==='both'); else annual=(b.dataset.v==='year');
-    renderPricing();
-  });
-});
-renderPricing();
 
 /* ---------- прототип: масштаб и объёмный наклон ---------- */
 const device=document.getElementById('device');
